@@ -3407,28 +3407,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <h2 class="form-section__title fade-up">資料請求・無料体験のお申し込み</h2>
     <p class="form-section__sub fade-up">下記フォームよりお気軽にお問い合わせください</p>
     <div class="form-section__iframe-wrap fade-up">
-      <iframe id="rizbell-form" src="https://lfo.rizbell.com/booking/org_01KMY7M23MG8N8G9ETGJ38HG59?project=default&embed=true" width="100%" frameborder="0" scrolling="no" style="border: none; min-height: 800px; overflow: hidden;"></iframe>
+      <iframe id="rizbell-form" src="https://lfo.rizbell.com/booking/org_01KMY7M23MG8N8G9ETGJ38HG59?project=proj_70p3bttw&embed=true" width="100%" frameborder="0" style="border: none; max-width: 600px; min-height: 800px; margin: 0 auto; display: block;"></iframe>
     </div>
   </div>
 </section>
 <script src="https://lfo.rizbell.com/embed-form.js"></script>
-<script>
-(function(){
-  var iframe = document.getElementById('rizbell-form');
-  if (!iframe) return;
-  window.addEventListener('message', function(e) {
-    if (e.data && typeof e.data.height === 'number') {
-      iframe.style.height = e.data.height + 'px';
-    }
-    if (e.data && typeof e.data === 'string') {
-      try {
-        var d = JSON.parse(e.data);
-        if (d.height) iframe.style.height = d.height + 'px';
-      } catch(ex){}
-    }
-  });
-})();
-</script>
 
 <!-- ==================== FOOTER ==================== -->
 <footer class="footer">
