@@ -240,21 +240,20 @@ ul { list-style: none; }
 .hero__bg {
   position: relative;
   width: 100%;
-  min-height: 100svh;
+  aspect-ratio: 9 / 16;
   background: #c8b8a0;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-top: 8vh;
+  overflow: hidden;
 }
 
 .hero__video {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(1.15);
-  min-width: 100%;
-  min-height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   z-index: 0;
 }
@@ -292,14 +291,15 @@ ul { list-style: none; }
 
 .hero__france-badge {
   display: inline-block;
-  font-size: 0.95rem;
+  font-size: 0.8rem;
   font-weight: 700;
   color: #fff;
   background: linear-gradient(135deg, #a08030 0%, #c4a35a 40%, #dcc07a 60%, #c4a35a 100%);
-  padding: 8px 22px;
+  padding: 6px 18px;
   border-radius: 4px;
   letter-spacing: 0.08em;
-  margin-bottom: 12px;
+  margin-top: 50px;
+  margin-bottom: 8px;
 }
 
 .hero__title {
@@ -346,8 +346,8 @@ ul { list-style: none; }
   width: 92%;
   max-width: 380px;
   margin-bottom: 20px;
-  filter: brightness(0) invert(1);
   opacity: 0.95;
+  filter: drop-shadow(0 0 12px rgba(255,255,255,0.6)) drop-shadow(0 0 24px rgba(255,255,255,0.3));
 }
 
 .hero__device {
@@ -565,7 +565,7 @@ ul { list-style: none; }
 }
 
 .affinity__main {
-  background: linear-gradient(135deg, #7a0c28 0%, #b6123a 50%, #7a0c28 100%);
+  background: linear-gradient(135deg, #8a0e2e 0%, #b6123a 50%, #d4164a 100%);
   color: var(--color-white);
   border-radius: var(--radius-lg);
   padding: 56px 48px;
@@ -581,7 +581,7 @@ ul { list-style: none; }
   position: absolute;
   top: -50%; right: -20%;
   width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(196,163,90,0.1) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(182,18,58,0.15) 0%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -595,10 +595,7 @@ ul { list-style: none; }
 }
 
 .affinity__main-title .hl {
-  background: linear-gradient(135deg, #dcc07a 0%, #c4a35a 40%, #a08030 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #fff;
   font-weight: 900;
   font-size: 1.5rem;
 }
@@ -900,19 +897,19 @@ ul { list-style: none; }
 
 /* Formula highlight */
 .formula-box {
-  background: linear-gradient(135deg, #1a0a0a 0%, #241010 50%, #1a0a0a 100%);
-  border: 1px solid rgba(196,163,90,0.3);
+  background: linear-gradient(135deg, #dcc07a 0%, #c4a35a 50%, #dcc07a 100%);
+  border: 1px solid rgba(160,128,48,0.3);
   border-radius: var(--radius-lg);
   padding: 28px 24px;
   margin: 24px 0;
   text-align: center;
-  box-shadow: 0 4px 28px rgba(196,163,90,0.1), inset 0 1px 0 rgba(196,163,90,0.1);
+  box-shadow: 0 4px 28px rgba(160,128,48,0.15);
 }
 
 .formula-box__title {
   font-size: 0.82rem;
   font-weight: 600;
-  color: var(--color-gold);
+  color: #3a2a10;
   margin-bottom: 16px;
   letter-spacing: 0.06em;
 }
@@ -926,8 +923,8 @@ ul { list-style: none; }
 }
 
 .formula-box__item {
-  background: linear-gradient(135deg, rgba(196,163,90,0.15) 0%, rgba(184,148,31,0.1) 100%);
-  color: var(--color-gold-light);
+  background: rgba(255,255,255,0.35);
+  color: #3a2a10;
   padding: 10px 16px;
   border-radius: var(--radius-sm);
   font-size: 0.85rem;
@@ -940,17 +937,14 @@ ul { list-style: none; }
   font-family: var(--font-en);
   font-size: 1.5rem;
   font-weight: 800;
-  color: var(--color-gold);
+  color: #3a2a10;
 }
 
 .formula-box__result {
   margin-top: 16px;
   font-size: 1rem;
   font-weight: 900;
-  background: linear-gradient(135deg, #dcc07a, #c4a35a);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #2a1a05;
   line-height: 1.6;
 }
 
@@ -1570,7 +1564,7 @@ ul { list-style: none; }
 
 /* Mid CTA (reused) */
 .mid-cta {
-  background: linear-gradient(135deg, #7a0c28 0%, #b6123a 50%, #7a0c28 100%);
+  background: linear-gradient(135deg, #8a0e2e 0%, #b6123a 50%, #d4164a 100%);
   padding: 48px 0;
   position: relative;
   overflow: hidden;
@@ -1660,7 +1654,7 @@ ul { list-style: none; }
 
 /* ========== Final CTA ========== */
 .final-cta {
-  background: linear-gradient(135deg, #7a0c28 0%, #b6123a 50%, #7a0c28 100%);
+  background: linear-gradient(135deg, #8a0e2e 0%, #b6123a 50%, #d4164a 100%);
   color: var(--color-white);
   padding: 60px 0;
   position: relative;
@@ -2015,7 +2009,7 @@ ul { list-style: none; }
   gap: 0;
   padding: 0 !important;
   overflow: visible;
-  background: linear-gradient(135deg, #7a0c28 0%, #b6123a 50%, #7a0c28 100%) !important;
+  background: linear-gradient(135deg, #8a0e2e 0%, #b6123a 50%, #d4164a 100%) !important;
   color: #fff !important;
   box-shadow: 0 -4px 20px rgba(0,0,0,0.3) !important;
   border-radius: 0 !important;
@@ -2215,14 +2209,14 @@ html { font-size: 16px; }
 .section-sub { font-size: 0.95rem; line-height: 1.8; }
 .section-line { width: 50px; margin: 14px auto; }
 
-.hero__bg { min-height: 100svh; padding-top: 0; }
-.hero__inner { padding: 0; }
+.hero__bg { padding-top: 0; }
+.hero__inner { padding: 20px 0 0; }
 .hero__logo { top: 14px; left: 14px; }
-.hero__logo img { height: 48px !important; }
-.hero__points { gap: 10px; margin-top: 120px; }
+.hero__logo img { height: 36px !important; }
+.hero__points { gap: 8px; margin-top: 60px; }
 .hero__point { padding: 14px 20px; gap: 12px; }
-.hero__point-text { font-size: 0.82rem; }
-.hero__brand-img { width: 92%; max-width: 380px; margin-bottom: 20px; }
+.hero__point-text { font-size: 0.78rem; white-space: nowrap; }
+.hero__brand-img { width: 92%; max-width: 380px; margin-bottom: 12px; filter: drop-shadow(0 0 16px rgba(255,255,255,0.7)) drop-shadow(0 0 32px rgba(255,255,255,0.4)) !important; }
 
 .problem .section-title { font-size: 1.25rem; }
 .problem .section-sub { font-size: 1.05rem; }
@@ -2420,7 +2414,7 @@ html { font-size: 16px; }
 .problem-visual {
   position: relative;
   background: linear-gradient(160deg, #c9b88e 0%, #baa97a 50%, #a89868 100%);
-  padding: 40px 20px 48px;
+  padding: 40px 20px 20px;
   overflow: hidden;
   text-align: center;
 }
@@ -2515,10 +2509,10 @@ html { font-size: 16px; }
 
 .problem-visual__person {
   position: absolute;
-  bottom: 0;
-  right: -80px;
-  width: 60%;
-  max-width: 270px;
+  bottom: -10px;
+  right: -160px;
+  width: 85%;
+  max-width: 400px;
   z-index: 2;
 }
 
@@ -2553,17 +2547,17 @@ html { font-size: 16px; }
 <section class="hero" id="hero">
   <div class="hero__bg">
     <video class="hero__video" autoplay loop muted playsinline>
-      <source src="images/MV.mp4" type="video/mp4">
+      <source src="images/MV_movie1.mp4" type="video/mp4">
     </video>
     <div class="hero__logo">
-      <img src="images/GUINOT_logo.png" alt="GUINOT">
+      <img src="images/logo.png" alt="GUINOT">
     </div>
 
     <div class="container">
       <div class="hero__inner">
-        <p class="hero__france-badge">フランス国内シェアNO.1ブランド</p>
+        <p class="hero__france-badge">ヨーロッパ・フランス国内シェアNO.1ブランド</p>
         <h1 class="hero__title">
-          <img src="images/visible%20age%20reverse%20VECTO_cropped.png" alt="VISIBLE AGE REVERSE" class="hero__brand-img">
+          <img src="images/VAR_logo_2.png" alt="VISIBLE AGE REVERSE" class="hero__brand-img" style="background:rgba(255,255,255,0.25);padding:10px 16px;border-radius:8px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);">
           <span class="hero__title-main">30分1回で<br>お肌の変化を実感</span>
           <span class="hero__title-sub">アンチエイジングに革命を起こす<br>フェイシャルマシン</span>
         </h1>
@@ -2580,7 +2574,7 @@ html { font-size: 16px; }
         </div>
         <div class="hero__point">
           <span class="hero__point-label">POINT</span><span class="hero__point-num">03</span>
-          <span class="hero__point-text">世界76カ国 17,000店舗以上の導入実績</span>
+          <span class="hero__point-text">世界91カ国 17,000店舗以上の導入実績</span>
         </div>
       </div>
     </div>
@@ -2594,7 +2588,7 @@ html { font-size: 16px; }
     <h2 class="impact__headline fade-up">リピート率<span class="hl-num">90</span>%以上<br>が効果を実感</h2>
     <p class="impact__note fade-up">※GUINOT社調べ</p>
 
-    <p class="impact__sub fade-up">世界76カ国で導入されている<br>話題のフェイシャルマシンが<br>日本に上陸</p>
+    <p class="impact__sub fade-up">世界91カ国で導入されている<br>話題のフェイシャルマシンが<br>日本に上陸</p>
 
     <div class="impact__stats fade-up">
       <div class="impact__stat">
@@ -2617,7 +2611,7 @@ html { font-size: 16px; }
             <path d="M6 24h36M8 16h32M8 32h32" stroke="#c4a35a" stroke-width=".8" opacity=".5"/>
           </svg>
         </div>
-        <div class="impact__stat-num">世界76カ国</div>
+        <div class="impact__stat-num">世界91カ国</div>
         <div class="impact__stat-label">17,000+店舗に導入</div>
       </div>
 
@@ -2638,7 +2632,7 @@ html { font-size: 16px; }
     <p class="impact__desc fade-up">フランスの美容整形外科技術を<br>エステティック向けに最適化した<br>「安全性と効率性」をそろえた<br>フェイシャルマシン</p>
 
     <div class="impact__brand fade-up">
-      <img src="images/visible%20age%20reverse%20VECTO_cropped.png" alt="VISIBLE AGE REVERSE" style="width:90%;max-width:380px;margin:0 auto;display:block;">
+      <img src="images/VAR_logo_2.png" alt="VISIBLE AGE REVERSE" style="width:90%;max-width:380px;margin:0 auto;display:block;">
     </div>
   </div>
 </section>
@@ -2653,22 +2647,22 @@ html { font-size: 16px; }
       <p class="problem-visual__label">深いシワ</p>
     </div>
     <div class="problem-visual__item">
-      <div class="problem-visual__circle"><img src="images/trouble03.jpg" alt="毛穴"></div>
-      <p class="problem-visual__label">毛穴</p>
+      <div class="problem-visual__circle"><img src="images/trouble_tarumi.jpg" alt="たるみ"></div>
+      <p class="problem-visual__label">たるみ</p>
     </div>
   </div>
   <div class="problem-visual__row2">
     <div class="problem-visual__item">
-      <div class="problem-visual__circle"><img src="images/trouble04.jpg" alt="ニキビ跡"></div>
-      <p class="problem-visual__label">ニキビ跡</p>
+      <div class="problem-visual__circle"><img src="images/trouble_kusumi.jpg" alt="くすみ"></div>
+      <p class="problem-visual__label">くすみ</p>
     </div>
     <div class="problem-visual__item">
-      <div class="problem-visual__circle"><img src="images/trouble05.jpg" alt="クレーター"></div>
-      <p class="problem-visual__label">クレーター</p>
+      <div class="problem-visual__circle"><img src="images/trouble_kubi.jpg" alt="首のシワ"></div>
+      <p class="problem-visual__label">首のシワ</p>
     </div>
   </div>
   <div class="problem-visual__person">
-    <img src="images/trouble_lady.png" alt="">
+    <img src="images/trouble_girl.png" alt="">
   </div>
 </section>
 
@@ -2720,9 +2714,9 @@ html { font-size: 16px; }
         お客様に真摯に向き合う<br>サロンオーナーさんこそが<br>抱えているお悩みを
       </p>
       <h2 class="affinity__main-title">
-        エステ発祥の地フランスでシェアNo.1<br>
+        ヨーロッパ・フランスでシェアNo.1<br>
         <span class="hl">「GUINOT」の集大成<br>フェイシャルマシン</span><br>
-        <img src="images/visible%20age%20reverse%20VECTO_cropped.png" alt="VISIBLE AGE REVERSE" style="max-width:320px;margin:8px auto;display:block;filter:brightness(0) invert(1);opacity:0.95;"><br>
+        <img src="images/logo_red.png" alt="VISIBLE AGE REVERSE" style="max-width:320px;margin:8px auto;display:block;opacity:0.95;"><br>
         が解決します！
       </h2>
       <div class="affinity__device" style="margin-top:32px;">
@@ -2750,7 +2744,7 @@ html { font-size: 16px; }
       <div style="margin-bottom:16px;overflow:hidden;border-radius:12px;">
         <img src="images/image_02.png" alt="アマンリゾート" style="width:100%;border-radius:12px;object-fit:cover;aspect-ratio:16/9;display:block;">
       </div>
-      <p>フランスを拠点に日本、アジアを含む<strong>世界76カ国17,000店舗以上</strong>のスパ・エステティックサロンに導入されているプロフェッショナルスキンケアブランドです。</p>
+      <p>フランスを拠点に日本、アジアを含む<strong>世界91カ国17,000店舗以上</strong>のスパ・エステティックサロンに導入されているプロフェッショナルスキンケアブランドです。</p>
     </div>
 
     <div class="brand__hotels fade-up" style="margin-top:32px;">
@@ -2760,7 +2754,7 @@ html { font-size: 16px; }
     <div class="brand__highlight-cards fade-up">
       <div class="brand__highlight-card">
         <div class="brand__highlight-card-icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="#8b1a1a" opacity=".12"/><circle cx="12" cy="12" r="9" stroke="#8b1a1a" stroke-width="1.5"/><ellipse cx="12" cy="12" rx="4.5" ry="9" stroke="#8b1a1a" stroke-width="1.2"/><path d="M3 12h18M4.5 7.5h15M4.5 16.5h15" stroke="#8b1a1a" stroke-width="1" opacity=".6"/><circle cx="12" cy="12" r="9" stroke="#c4a35a" stroke-width=".5" opacity=".4"/></svg></div>
-        <div class="brand__highlight-card-num">76</div>
+        <div class="brand__highlight-card-num">91</div>
         <div class="brand__highlight-card-title">カ国に展開</div>
       </div>
       <div class="brand__highlight-card">
@@ -2775,7 +2769,7 @@ html { font-size: 16px; }
 <!-- ==================== VAR INTRO ==================== -->
 <section class="var-intro section-padding" id="var-intro">
   <div class="container text-center">
-    <div style="margin-bottom:16px;"><img src="images/visible%20age%20reverse%20VECTO_cropped.png" alt="VISIBLE AGE REVERSE" style="max-width:320px;margin:0 auto;display:block;"></div>
+    <div style="margin-bottom:16px;"><img src="images/VAR_logo_2.png" alt="VISIBLE AGE REVERSE" style="max-width:320px;margin:0 auto;display:block;"></div>
     <h2 class="section-title section-title--xl">エイジングケアに特化した<br>GUINOTの集大成<br>フェイシャルマシンです</h2>
     <hr class="section-line">
 
@@ -2812,7 +2806,7 @@ html { font-size: 16px; }
     </div>
 
     <div class="fade-up" style="margin-top:32px;">
-      <img src="images/INSTA-JDM-FR-pas encore programmé.png" alt="VAR施術イメージ" style="width:100%;border-radius:12px;object-fit:cover;aspect-ratio:3/2;">
+      <img src="images/faceline.png" alt="VAR施術イメージ" style="width:100%;border-radius:12px;object-fit:cover;aspect-ratio:3/2;">
     </div>
   </div>
 </section>
@@ -2830,7 +2824,7 @@ html { font-size: 16px; }
     <div class="reason-card fade-up" style="margin-top:48px;">
       <div class="reason-card__header">
         <span class="reason-card__check">&#10003;</span>
-        <h3 class="reason-card__title">フランスシェアNo.1のGUINOTが<br>科学的根拠を持って開発</h3>
+        <h3 class="reason-card__title">ヨーロッパ・フランス国内シェアNo.1のGUINOTが<br>科学的根拠を持って開発</h3>
       </div>
       <div class="reason-card__body">
         <p>ギノーの製品は、フランスの自社研究所から作り出されています。製造工場は医薬品やワクチンの製造が可能なレベルを有し、科学的根拠を持って独自の専用セラムを開発。</p>
@@ -2885,8 +2879,6 @@ html { font-size: 16px; }
         <div class="formula-box">
           <p class="formula-box__title">VARの独自メカニズム</p>
           <div class="formula-box__items">
-            <span class="formula-box__item">独自の電流<br>(V-Electric)</span>
-            <span class="formula-box__operator">&times;</span>
             <span class="formula-box__item">精密な振動</span>
             <span class="formula-box__operator">&times;</span>
             <span class="formula-box__item">専用美容液の成分</span>
@@ -3032,6 +3024,17 @@ html { font-size: 16px; }
       <article class="result-ba__case">
         <div class="result-ba__pair">
           <div class="result-ba__photo">
+            <img src="images/症例/VAR-AVANT-APRES-FLORENCE.jpg" alt="症例写真 Florence - Before/After">
+          </div>
+          <div class="result-ba__labels">
+            <span class="result-ba__label result-ba__label--before">Before</span>
+            <span class="result-ba__label result-ba__label--after">After</span>
+          </div>
+        </div>
+      </article>
+      <article class="result-ba__case">
+        <div class="result-ba__pair">
+          <div class="result-ba__photo">
             <img src="images/症例/INSTA-JDM-FR-25-07-2023.png" alt="症例写真 - Before/After">
           </div>
           <div class="result-ba__labels">
@@ -3043,7 +3046,7 @@ html { font-size: 16px; }
       <article class="result-ba__case">
         <div class="result-ba__pair">
           <div class="result-ba__photo">
-            <img src="images/症例/VAR-AVANT-APRES-FLORENCE.jpg" alt="症例写真 Florence - Before/After">
+            <img src="images/症例/20260416050906.JPEG" alt="症例写真 - Before/After">
           </div>
           <div class="result-ba__labels">
             <span class="result-ba__label result-ba__label--before">Before</span>
@@ -3088,7 +3091,7 @@ html { font-size: 16px; }
         <div class="five-reason__num">01</div>
         <h3 class="five-reason__title">60年以上の歴史と実績あるブランド<br>「GUINOT（ギノー）」が開発</h3>
         <div class="five-reason__text">
-          <p>エステ発祥の地フランスでシェアNo.1。高級ホテルや高級リゾート、豪華客船でも公式ブランドとして採用。世界76ヵ国、17,000店のサロンやスパに導入されています。</p>
+          <p>ヨーロッパ・フランス国内シェアNo.1。高級ホテルや高級リゾート、豪華客船でも公式ブランドとして採用。世界91ヵ国、17,000店のサロンやスパに導入されています。</p>
           <p>信頼と実績のあるブランドだからこそ、安心・自信を持ってお客様にご提供できます。</p>
         </div>
       </div>
@@ -3103,7 +3106,7 @@ html { font-size: 16px; }
         <div class="five-reason__num">02</div>
         <h3 class="five-reason__title">リピート率は90%以上！<br>30分1回で実感できる結果</h3>
         <div class="five-reason__text">
-          <p>①独自の電流（V-Electric） ②精密な振動 ③56種類の細胞活性成分配合の専用美容液 &mdash; これらが肌の再生力を促進。</p>
+          <p>①精密な振動 ②56種類の細胞活性成分配合の専用美容液 &mdash; これらが肌の再生力を促進。</p>
           <p>1回30分で目に見える変化を実感。90%以上の高リピート率を実現しています。</p>
         </div>
       </div>
@@ -3133,7 +3136,48 @@ html { font-size: 16px; }
         <h3 class="five-reason__title">継続プランで<br>サロン経営の安定化</h3>
         <div class="five-reason__text">
           <p>VARなら、継続プランの成約率が高い。単発メニューから継続コースのご成約でサロン経営の安定化に繋がります。</p>
-          <p style="margin-top:8px; padding:8px 12px; background:rgba(182,18,58,0.06); border-radius:6px; font-size:0.75rem; color:var(--color-primary);"><strong>メニュー例：</strong>単発22,000円 &rarr; 5回コース88,000円</p>
+          <div style="margin-top:16px; padding:20px 16px 12px; background:#f7f8fa; border-radius:10px;">
+            <p style="font-size:0.85rem; font-weight:900; color:#1a1a1a; margin-bottom:16px; text-align:center;">客単価アップの実現</p>
+            <p style="font-size:0.68rem; color:#555; text-align:center; line-height:1.6; margin-bottom:16px;">単発メニューから継続コースへの移行により、<br>客単価の大幅アップに成功。</p>
+            <div style="position:relative; display:flex; align-items:flex-end; justify-content:center; gap:32px; padding:0 20px 0 36px; height:180px;">
+              <div style="position:absolute; left:28px; top:0; bottom:24px; display:flex; flex-direction:column; justify-content:space-between;">
+                <span style="font-size:0.5rem; color:#aaa;">¥100,000</span>
+                <span style="font-size:0.5rem; color:#aaa;">¥80,000</span>
+                <span style="font-size:0.5rem; color:#aaa;">¥60,000</span>
+                <span style="font-size:0.5rem; color:#aaa;">¥40,000</span>
+                <span style="font-size:0.5rem; color:#aaa;">¥20,000</span>
+                <span style="font-size:0.5rem; color:#aaa;">¥0</span>
+              </div>
+              <div style="position:absolute; left:68px; top:0; right:16px; bottom:24px; display:flex; flex-direction:column; justify-content:space-between;">
+                <div style="border-top:1px solid #e8e8e8; width:100%;"></div>
+                <div style="border-top:1px solid #e8e8e8; width:100%;"></div>
+                <div style="border-top:1px solid #e8e8e8; width:100%;"></div>
+                <div style="border-top:1px solid #e8e8e8; width:100%;"></div>
+                <div style="border-top:1px solid #e8e8e8; width:100%;"></div>
+                <div style="border-top:1px solid #e8e8e8; width:100%;"></div>
+              </div>
+              <div style="position:relative; z-index:2; text-align:center; margin-left:40px;">
+                <div style="width:70px; height:54px; background:#e0e3e8; border-radius:4px 4px 0 0; margin:0 auto;"></div>
+                <span style="font-size:0.58rem; color:#777; display:block; margin-top:6px;">単発メニュー</span>
+              </div>
+              <div style="position:absolute; z-index:10; top:-10px; left:50%; transform:translateX(-10px); text-align:center; pointer-events:none;">
+                <span style="font-size:1.3rem; font-weight:900; color:#b6123a; display:block; margin-bottom:2px;">UP!</span>
+                <svg width="100" height="80" viewBox="0 0 100 80" style="display:block; overflow:visible;">
+                  <defs>
+                    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                      <polygon points="0 0, 8 3, 0 6" fill="#b6123a"/>
+                    </marker>
+                  </defs>
+                  <path d="M10 68 C30 60 60 40 82 14" stroke="#b6123a" stroke-width="2.5" fill="none" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+                </svg>
+              </div>
+              <div style="position:relative; z-index:2; text-align:center;">
+                <div style="width:70px; height:130px; background:linear-gradient(180deg,#c4a35a,#dcc07a,#a08030); border-radius:4px 4px 0 0; margin:0 auto;"></div>
+                <span style="font-size:0.58rem; color:#777; display:block; margin-top:6px;">VAR導入後</span>
+              </div>
+            </div>
+            <p style="font-size:0.6rem; color:#aaa; text-align:center; margin-top:6px;">※導入サロンの平均的な客単価上昇例</p>
+          </div>
         </div>
       </div>
     </div>
@@ -3193,7 +3237,7 @@ html { font-size: 16px; }
       <p class="pricing__note" style="text-align:center;margin-bottom:24px;">※最低35回のお支払いとなります。</p>
       <hr style="border:none;border-top:1px solid rgba(0,0,0,0.1);margin:0 0 24px;">
       <p class="pricing__row-label" style="text-align:center;margin-bottom:8px;">オープニングパッケージ</p>
-      <p class="pricing__row-value" style="text-align:center;margin-bottom:4px;"><span style="font-size:1.5em;font-weight:900;">118,000</span>円<small>（税込）</small></p>
+      <p class="pricing__row-value" style="text-align:center;margin-bottom:4px;"><span style="font-size:1.5em;font-weight:900;">120,200</span>円<small>（税込）</small></p>
       <p class="pricing__note" style="text-align:center;">&rarr; 必要業務用商材40名〜50名分・店販商品（クリーム&times;2）</p>
     </div>
 
@@ -3275,13 +3319,13 @@ html { font-size: 16px; }
       </div>
       <h2 class="offer__card-title">体験すれば分かる、<br>VARの全てを手にいれるチャンス</h2>
 
-      <div class="offer__benefit">
+      <div class="offer__benefit" style="flex-direction:column; align-items:stretch; text-align:center; padding:20px 16px;">
         <div class="offer__benefit-main">
-          <p class="offer__benefit-num">特典1</p>
-          <p class="offer__benefit-title">VARフェイシャルを<br>無料体験</p>
+          <p class="offer__benefit-num" style="margin:0 auto 8px;">特典1</p>
+          <p class="offer__benefit-title" style="font-size:1.1rem;">VARフェイシャルを<strong>無料体験</strong></p>
           <p class="offer__benefit-note">※体験はサロンオーナー様ご本人に限ります</p>
         </div>
-        <img src="images/03-VAR_Inversé_DET.png" alt="VAR" class="offer__benefit-img">
+        <img src="images/03-VAR_Inversé_DET.png" alt="VAR" class="offer__benefit-img" style="width:200px; margin:12px auto 0;">
       </div>
 
       <div class="offer__benefit offer__benefit--outline">
