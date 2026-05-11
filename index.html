@@ -247,34 +247,17 @@ ul { list-style: none; }
 .hero__bg {
   position: relative;
   width: 100%;
-  aspect-ratio: 9 / 16;
   background: #c8b8a0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  overflow: hidden;
 }
 
 .hero__video {
-  position: absolute;
-  top: 0;
-  left: 0;
+  display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
+  height: auto;
 }
 
 .hero__bg::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(180deg, rgba(15,5,5,0.1) 0%, rgba(15,5,5,0.05) 25%, rgba(15,5,5,0.2) 50%, rgba(15,5,5,0.45) 75%, rgba(15,5,5,0.6) 100%);
-  pointer-events: none;
-  z-index: 1;
+  display: none;
 }
 
 .hero__inner {
@@ -2082,10 +2065,9 @@ ul { list-style: none; }
 /* ========== Impact Section ========== */
 .impact {
   background: linear-gradient(160deg, #f7f3ec 0%, #fff 40%, #f0ebe0 100%);
-  padding: 44px 0 40px;
+  padding: 44px 0 60px;
   text-align: center;
   position: relative;
-  overflow: hidden;
 }
 
 .impact::before {
@@ -2557,39 +2539,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ==================== HERO ==================== -->
 <section class="hero" id="hero">
   <div class="hero__bg">
-    <video class="hero__video" autoplay loop muted playsinline>
-      <source src="images/MV_movie1.mp4" type="video/mp4">
-    </video>
-    <div class="hero__logo">
-      <img src="images/logo.png" alt="GUINOT">
-    </div>
-
-    <div class="container">
-      <div class="hero__inner">
-        <p class="hero__france-badge">ヨーロッパ・フランス国内シェアNO.1ブランド</p>
-        <h1 class="hero__title">
-          <img src="images/VAR_logo_2.png" alt="VISIBLE AGE REVERSE" class="hero__brand-img" style="background:rgba(255,255,255,0.25);padding:10px 16px;border-radius:8px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);">
-          <span class="hero__title-main">30分1回で<br>お肌の変化を実感</span>
-          <span class="hero__title-sub">アンチエイジングに革命を起こす<br>フェイシャルマシン</span>
-        </h1>
-
-      <!-- Point badges -->
-      <div class="hero__points">
-        <div class="hero__point">
-          <span class="hero__point-label">POINT</span><span class="hero__point-num">01</span>
-          <span class="hero__point-text">フランス発 No.1エステティックブランド</span>
-        </div>
-        <div class="hero__point">
-          <span class="hero__point-label">POINT</span><span class="hero__point-num">02</span>
-          <span class="hero__point-text">30分1回で実感。リピート率90%以上</span>
-        </div>
-        <div class="hero__point">
-          <span class="hero__point-label">POINT</span><span class="hero__point-num">03</span>
-          <span class="hero__point-text">世界91カ国 17,000店舗以上の導入実績</span>
-        </div>
-      </div>
-    </div>
-  </div>
+    <img class="hero__video" src="images/MV_image.png" alt="メインビジュアル">
   </div>
 </section>
 
