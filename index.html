@@ -2387,11 +2387,6 @@ html { font-size: 16px; }
   }
 }
 
-/* Performance: skip rendering off-screen sections */
-section:not(#hero) {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 800px;
-}
 </style>
 </head>
 
@@ -2956,51 +2951,25 @@ document.addEventListener('DOMContentLoaded', function() {
     ctaObserver.observe(formSection);
   }
 
-  var riz = document.getElementById('rizbell-form');
-  var rizUrl = riz && riz.getAttribute('data-rizbell-src');
-  if (riz && rizUrl) {
-    function mountRizbell() {
-      if (riz.getAttribute('data-rizbell-mounted')) return;
-      riz.setAttribute('data-rizbell-mounted', '1');
-      riz.src = rizUrl;
-    }
-    function scrollFormIntoView() {
-      var el = document.getElementById('form');
-      if (el) el.scrollIntoView({ block: 'start', behavior: 'auto' });
-    }
-    if (window.location.hash === '#form') {
-      mountRizbell();
-      requestAnimationFrame(scrollFormIntoView);
-    } else {
-      window.scrollTo(0, 0);
-      var formEl = document.getElementById('form');
-      if (formEl) {
-        var rio = new IntersectionObserver(function(entries) {
-          entries.forEach(function(e) {
-            if (e.isIntersecting) {
-              mountRizbell();
-              rio.disconnect();
-            }
-          });
-        }, { rootMargin: '360px 0px 360px 0px', threshold: 0 });
-        rio.observe(formEl);
-      } else {
-        mountRizbell();
-      }
-    }
-    document.addEventListener('click', function(ev) {
-      var t = ev.target;
-      if (!t || !t.closest) return;
-      var a = t.closest('a[href="#form"], a[href$="#form"]');
-      if (a) mountRizbell();
-    }, true);
-    window.addEventListener('hashchange', function() {
-      if (window.location.hash === '#form') {
-        mountRizbell();
-        requestAnimationFrame(scrollFormIntoView);
-      }
-    });
+  function scrollFormIntoView() {
+    var el = document.getElementById('form');
+    if (el) el.scrollIntoView({ block: 'start', behavior: 'smooth' });
   }
+  if (window.location.hash === '#form') {
+    requestAnimationFrame(scrollFormIntoView);
+  } else {
+    window.scrollTo(0, 0);
+  }
+  document.addEventListener('click', function(ev) {
+    var t = ev.target;
+    if (!t || !t.closest) return;
+    var a = t.closest('a[href="#form"], a[href$="#form"]');
+    if (a) {
+      ev.preventDefault();
+      history.pushState(null, '', '#form');
+      scrollFormIntoView();
+    }
+  }, true);
 });
 </script>
 
