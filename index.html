@@ -18,8 +18,8 @@ else w.addEventListener('load',function(){setTimeout(g,0);});
 <script>document.documentElement.className+=(function(){var c=document.createElement('canvas');return(c.getContext&&c.getContext('2d')&&c.toDataURL('image/webp').indexOf('data:image/webp')===0)?'':' no-webp'})();</script>
 <title>VAR | 30分1回でお肌の変化を実感 アンチエイジングに革命を起こすフェイシャルマシン</title>
 <meta name="description" content="エステ発祥の地フランスでシェアNo.1のGUINOTが開発した集大成フェイシャルマシンVAR。30分1回で目に見える変化を実感。ダウンタイム0、肌トラブル0、敏感肌もOK。">
-<link rel="preload" as="image" href="images/add_00_fv.webp?v=4" type="image/webp" fetchpriority="high">
-<link rel="preload" as="image" href="images/add_00_fv.jpg?v=4" fetchpriority="high">
+<link rel="preload" as="image" href="images/add_00_fv.webp?v=6" type="image/webp" fetchpriority="high">
+<link rel="preload" as="image" href="images/add_00_fv.jpg?v=6" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;900&family=Montserrat:wght@400;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
@@ -1405,7 +1405,7 @@ ul { list-style: none; }
 
 /* Mid CTA (reused) */
 .mid-cta {
-  background: linear-gradient(135deg, #8a0e2e 0%, #b6123a 50%, #d4164a 100%);
+  background: #fff;
   padding: 48px 0;
   position: relative;
   overflow: hidden;
@@ -1430,51 +1430,31 @@ ul { list-style: none; }
   font-weight: 900;
   margin-bottom: 12px;
   letter-spacing: 0.04em;
-  color: #fff;
-  -webkit-text-fill-color: #fff;
+  color: #1a1a1a;
+  -webkit-text-fill-color: #1a1a1a;
   line-height: 1.6;
 }
 
 .mid-cta__text {
   font-size: 0.92rem;
-  color: rgba(255,255,255,0.85);
+  color: rgba(26,26,26,0.7);
   line-height: 1.8;
   margin-bottom: 20px;
 }
 
-.mid-cta .btn--primary {
-  display: inline-flex;
-  background: linear-gradient(135deg, #a08030 0%, #c4a35a 30%, #dcc07a 50%, #c4a35a 70%, #a08030 100%);
-  color: #0f0505;
-  font-weight: 900;
-  font-size: 1.1rem;
-  padding: 18px 28px;
-  letter-spacing: 0.03em;
-  border: none;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.3), 0 4px 16px rgba(196,163,90,0.35);
-  animation: cta-pulse 2.4s ease-in-out infinite;
-  position: relative;
-  overflow: hidden;
-  white-space: normal;
-  text-align: center;
-  line-height: 1.35;
-  justify-content: center;
-  border-radius: var(--radius-md);
+.mid-cta__banner {
+  display: block;
+  line-height: 0;
+  width: 100%;
+  text-decoration: none;
+  background: transparent;
 }
 
-.mid-cta .btn--primary::after {
-  content: '';
-  position: absolute;
-  top: 0; left: -100%;
-  width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
-  animation: cta-shimmer 3s ease-in-out infinite;
-}
-
-.mid-cta .btn--primary:hover {
-  box-shadow: 0 6px 28px rgba(196,163,90,0.5);
-  animation: none;
-  transform: translateY(-2px);
+.mid-cta__banner picture,
+.mid-cta__banner img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .mid-cta__img {
@@ -1841,7 +1821,9 @@ ul { list-style: none; }
   max-width: 430px;
   z-index: 1000;
   padding: 0;
+  background: transparent;
   transition: opacity 0.4s ease, visibility 0.4s ease;
+  filter: drop-shadow(0 -4px 16px rgba(0,0,0,0.35));
 }
 
 .floating-cta.is-hidden {
@@ -1851,74 +1833,19 @@ ul { list-style: none; }
 }
 
 .floating-cta__btn {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0;
-  padding: 0 !important;
-  overflow: visible;
-  background: linear-gradient(135deg, #8a0e2e 0%, #b6123a 50%, #d4164a 100%) !important;
-  color: #fff !important;
-  box-shadow: 0 -4px 20px rgba(0,0,0,0.3) !important;
-  border-radius: 0 !important;
+  display: block;
+  line-height: 0;
   width: 100%;
   text-decoration: none;
+  background: transparent;
 }
 
-.floating-cta__btn::after {
-  content: '';
-  position: absolute;
-  top: 0; left: -100%;
-  width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%);
-  animation: floating-cta-shimmer 3s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes floating-cta-shimmer {
-  0% { left: -100%; }
-  60% { left: 100%; }
-  100% { left: 100%; }
-}
-
-.floating-cta__text {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  line-height: 1.2;
-  gap: 6px;
-  padding: 16px 20px;
-  flex: 1;
-}
-
-.floating-cta__line1 {
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  font-size: 0.78em;
-  opacity: 0.95;
-  background: rgba(196,163,90,0.35);
-  padding: 3px 12px;
-  border-radius: 3px;
-}
-
-.floating-cta__line2 {
-  font-weight: 900;
-  letter-spacing: 0.02em;
-  font-size: 1.3em;
-}
-
-.floating-cta__img {
-  width: 120px;
+.floating-cta__btn picture,
+.floating-cta__btn img {
+  width: 100%;
   height: auto;
-  object-fit: contain;
-  flex-shrink: 0;
-  margin-right: 10px;
-  margin-top: -8px;
-  margin-bottom: -8px;
-  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+  display: block;
+  background: transparent;
 }
 
 /* ========== Impact Section ========== */
@@ -2121,7 +2048,6 @@ html { font-size: 16px; }
 .mid-cta { padding: 32px 0; }
 .mid-cta__lead { font-size: 1.1rem; }
 .mid-cta__text { font-size: 0.95rem; margin-bottom: 14px; }
-.mid-cta .btn--primary { font-size: 1rem; padding: 14px 12px; }
 .mid-cta__img { width: 260px; }
 
 .offer { padding: 40px 0; }
@@ -2141,10 +2067,6 @@ html { font-size: 16px; }
 .form-section { padding: 36px 0 48px; }
 .form-section__title { font-size: 1.1rem; }
 .form-section__sub { font-size: 0.82rem; }
-
-.floating-cta__img { width: 160px; margin-top: -30px; position: relative; z-index: 10; }
-.floating-cta__line1 { font-size: 0.82em; }
-.floating-cta__line2 { font-size: 1.25em; white-space: normal; line-height: 1.25; }
 
 /* ========== Origin (France to Japan) ========== */
 .origin {
@@ -2403,7 +2325,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- ==================== HERO（Figma修正版） ==================== -->
 <section class="hero" id="hero">
-  <picture><source srcset="images/add_00_fv.webp?v=4" type="image/webp"><img class="hero__mv" src="images/add_00_fv.jpg?v=4" alt="塗った瞬間、肌が反応する。VISIBLE AGE REVERSE VAR。ヨーロッパ・フランス売上No.1のプロフェッショナルスキンケアブランド" width="860" height="2054" loading="eager" fetchpriority="high" decoding="async"></picture>
+  <picture><source srcset="images/add_00_fv.webp?v=6" type="image/webp"><img class="hero__mv" src="images/add_00_fv.jpg?v=6" alt="塗った瞬間、肌が反応する。VISIBLE AGE REVERSE VAR。ヨーロッパ・フランス売上No.1の化粧品ブランド" width="576" height="1024" loading="eager" fetchpriority="high" decoding="async"></picture>
 </section>
 
 <!-- ==================== IMPACT（Figma修正版：効果を実感） ==================== -->
@@ -2414,11 +2336,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ==================== PROBLEM VISUAL ==================== -->
 <section style="padding:0;margin:0;">
   <picture><source srcset="images/trable.webp" type="image/webp"><img src="images/trable.jpg?v=1" alt="お客様でこのような肌トラブルありませんか？" width="860" height="1055" loading="lazy" decoding="async" style="width:100%;height:auto;display:block;"></picture>
-</section>
-
-<!-- ==================== 40代データ（Figma追加：エイジングサイン・美容投資意識） ==================== -->
-<section style="padding:0;margin:0;" id="market-data">
-  <picture><source srcset="images/add_01_market_data.webp?v=4" type="image/webp"><img src="images/add_01_market_data.jpg?v=4" alt="40代女性の約8割がエイジングサインを実感。40代以降はエイジングケアへの関心・美容投資意識が高く、客単価アップが期待できる顧客層" width="860" height="8408" loading="lazy" decoding="async" style="width:100%;height:auto;display:block;"></picture>
 </section>
 
 <!-- Arrow: problem-visual → problem -->
@@ -2444,6 +2361,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ==================== BRAND（Figma更新版：40代・アンチエイジング訴求） ==================== -->
 <section style="padding:0;margin:0;">
   <picture><source srcset="images/add_02_guinot_dev.webp?v=4" type="image/webp"><img src="images/add_02_guinot_dev.jpg?v=4" alt="ヨーロッパ・フランスシェアNo.1のプロフェッショナルスキンケアブランドGUINOTが開発。60年以上、40代以上の悩みに向き合うアンチエイジングのパイオニア" width="860" height="2210" loading="lazy" decoding="async" style="width:100%;height:auto;display:block;"></picture>
+</section>
+
+<!-- ==================== 体感訴求（塗った瞬間、肌が反応する） ==================== -->
+<section style="padding:0;margin:0;" id="effect">
+  <picture><source srcset="images/add_02b_effect.webp?v=1" type="image/webp"><img src="images/add_02b_effect.jpg?v=1" alt="塗った瞬間、肌が反応する。VARは商材を肌に塗布した直後からピリピリとした刺激が伝わる、これまでにないフェイシャルトリートメント" width="576" height="1024" loading="lazy" decoding="async" style="width:100%;height:auto;display:block;"></picture>
+</section>
+
+<!-- ==================== 刺激の理由（WHY DOES THE SKIN REACT?） ==================== -->
+<section style="padding:0;margin:0;" id="reason">
+  <picture><source srcset="images/add_02c_reason.webp?v=1" type="image/webp"><img src="images/add_02c_reason.jpg?v=1" alt="その刺激には、理由があります。STEP01商材を肌に塗布、STEP02脳が43℃以上の熱と錯覚、STEP03血流を早める指令を出す" width="576" height="1024" loading="lazy" decoding="async" style="width:100%;height:auto;display:block;"></picture>
+</section>
+
+<!-- ==================== 肌内側の変化（INNER SKIN RESPONSE） ==================== -->
+<section style="padding:0;margin:0;" id="evidence">
+  <picture><source srcset="images/add_02d_evidence.webp?v=1" type="image/webp"><img src="images/add_02d_evidence.jpg?v=1" alt="肌の内側で起こる、目に見えない変化。毛細血管+10%、細胞再生率+28%" width="576" height="1024" loading="lazy" decoding="async" style="width:100%;height:auto;display:block;"></picture>
+</section>
+
+<!-- ==================== 体感が選ばれる理由（A MEMORABLE EXPERIENCE） ==================== -->
+<section style="padding:0;margin:0;" id="variation">
+  <picture><source srcset="images/add_02e_variation.webp?v=1" type="image/webp"><img src="images/add_02e_variation.jpg?v=1" alt="結果だけではない。体感そのものが、選ばれる理由になる。初回から印象に残りやすい、施術の特徴を伝えやすい、他店との違いをつくりやすい" width="576" height="1024" loading="lazy" decoding="async" style="width:100%;height:auto;display:block;"></picture>
+</section>
+
+<!-- ==================== OFFER ==================== -->
+<section style="padding:0;margin:0;" id="offer">
+  <picture><source srcset="images/offer.webp?v=2" type="image/webp"><img src="images/offer.jpg?v=2" alt="導入しやすい料金設計で、あなたのサロンに新しい価値を。月額49,500円（税込）。今なら初月度無料。初めての導入でも安心してご利用いただけます。" width="1024" height="682" loading="lazy" decoding="async" style="width:100%;height:auto;display:block;"></picture>
 </section>
 
 <!-- ==================== なぜ40代以降の女性にVARがいいのか（Figma追加） ==================== -->
@@ -2478,8 +2420,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="mid-cta__content">
         <p class="mid-cta__lead">まずはVARの変化を<br>あなたの肌でご体感ください</p>
         <p class="mid-cta__text">無料体験のお申し込みはこちら</p>
-        <a href="#form" class="btn btn--primary">
-          資料請求・無料体験に申し込む <span class="arrow">&rarr;</span>
+        <a href="#form" class="mid-cta__banner" aria-label="資料請求・無料体験に申し込む">
+          <picture>
+            <source srcset="images/cta.webp?v=33" type="image/webp">
+            <img src="images/cta.png?v=33" alt="あなたも感動体験を。資料請求・デモ予約はコチラ。17,000店舗以上に導入" width="1200" height="338" loading="lazy" decoding="async">
+          </picture>
         </a>
       </div>
     </div>
@@ -2492,7 +2437,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- ==================== TESTIMONIALS（Figmaリデザイン） ==================== -->
-<section style="padding:0;margin:0;" id="testimonials">
+<section style="padding:48px 0 0;margin:0;background:#fff;" id="testimonials">
   <picture><source srcset="images/add_09_voice.webp?v=4" type="image/webp"><img src="images/add_09_voice.jpg?v=4" alt="導入サロン様の声。naturefeel様、PROSPER様、SPA香月様、Archi様、And Eyes様" width="860" height="7152" loading="lazy" decoding="async" style="width:100%;height:auto;display:block;"></picture>
 </section>
 
@@ -2512,9 +2457,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- ==================== FINAL CTA ==================== -->
-<section style="padding:0;margin:0;" id="contact">
-  <a href="#form" aria-label="資料請求・無料体験に申し込む" style="display:block;line-height:0;">
-    <picture><source srcset="images/CTA.webp" type="image/webp"><img src="images/CTA.jpg?v=1" alt="まずはVARの変化をあなたの肌でご体感ください。無料体験のお申し込みはこちら。資料請求・無料体験に申し込む" width="860" height="450" loading="lazy" decoding="async" fetchpriority="low" style="width:100%;height:auto;display:block;"></picture>
+<section style="padding:0;margin:0;background:#fff;" id="contact">
+  <a href="#form" aria-label="資料請求・無料体験に申し込む" style="display:block;line-height:0;background:#fff;">
+    <picture><source srcset="images/cta.webp?v=33" type="image/webp"><img src="images/cta.png?v=33" alt="あなたも感動体験を。資料請求・デモ予約はコチラ。17,000店舗以上に導入" width="1200" height="338" loading="lazy" decoding="async" fetchpriority="low" style="width:100%;height:auto;display:block;"></picture>
   </a>
 </section>
 
@@ -2545,12 +2490,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- Floating CTA -->
 <div class="floating-cta">
-  <a href="#form" class="floating-cta__btn">
-    <span class="floating-cta__text">
-      <span class="floating-cta__line1">VAR 無料体験受付中</span>
-      <span class="floating-cta__line2">資料請求・無料体験はこちら</span>
-    </span>
-    <picture><source srcset="images/03-VAR_Inverse_DET.webp" type="image/webp"><img src="images/03-VAR_Inverse_DET.png" alt="VAR" class="floating-cta__img"></picture>
+  <a href="#form" class="floating-cta__btn" aria-label="資料請求・無料体験に申し込む">
+    <picture>
+      <source srcset="images/cta.webp?v=33" type="image/webp">
+      <img src="images/cta.png?v=33" alt="あなたも感動体験を。資料請求・デモ予約はコチラ。17,000店舗以上に導入" width="1200" height="338" decoding="async">
+    </picture>
   </a>
 </div>
 
