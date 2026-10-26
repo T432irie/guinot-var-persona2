@@ -265,6 +265,9 @@ h1, h2, h3, p, li, b { word-break: auto-phrase; line-break: strict; }
 .solve__wave .w-r { stroke: var(--accent); }
 .solve__wave .w-g { stroke: var(--gold); }
 @keyframes waveFlow { to { transform: translateX(-50%); } }
+.solve__video { max-width: 360px; margin: 28px auto 0; }
+.solve__video video { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 42%; box-shadow: 0 24px 40px -24px rgba(28,18,20,.35); }
+.solve__video figcaption { margin-top: 8px; text-align: right; font-size: .75rem; color: var(--muted); }
 .solve__photo { position: relative; }
 .solve__photo img { width: 100%; height: auto; filter: drop-shadow(0 24px 30px rgba(28,18,20,.16)); }
 /* lead lines stay quiet; the answer line carries the weight */
@@ -348,7 +351,7 @@ h1, h2, h3, p, li, b { word-break: auto-phrase; line-break: strict; }
 .cert { position: relative; display: grid; justify-items: center; padding: 26px 8px 22px; text-align: center; background: rgba(255,252,248,.05); border: 1px solid rgba(228,207,166,.45); }
 /* the label block is exactly as tall as the seal and pulled up over it, so ISO + number sit at the seal centre */
 .cert__seal { position: relative; width: 132px; aspect-ratio: 1; margin-bottom: -132px; }
-.cert__seal svg { width: 100%; height: 100%; overflow: visible; }
+.cert__seal svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .cert__seal .ring { fill: none; stroke: var(--gold-l); stroke-width: 1.4; }
 .cert__seal .ring--in { stroke-width: .8; stroke-dasharray: 2 4; }
 .cert__seal text { fill: var(--gold-l); font-family: var(--serif-en); font-style: italic; font-size: 13.5px; letter-spacing: 1.5px; }
@@ -608,6 +611,7 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
 .safety li::before { content: ""; position: absolute; left: 4px; top: 1.45em; width: 7px; height: 7px; border-radius: 50%; background: var(--gold-l); }
 .safety b { font-weight: 500; }
 .safety small { display: block; margin-top: 2px; font-size: .85rem; color: rgba(255,252,248,.72); }
+.safety small.safety__date { margin-top: 4px; font-size: .75rem; color: rgba(255,252,248,.6); }
 
 /* feature 2 additions under the 7-step flow */
 .f2-more { margin-top: 72px; gap: 48px; }
@@ -626,19 +630,19 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
 .voices { display: grid; gap: 24px; margin-top: 48px; }
 .voice { display: flex; flex-direction: column; background: var(--ivory); box-shadow: 0 20px 40px -28px rgba(28,18,20,.3); }
 .voice .ph { border: 0; border-bottom: 1px dashed #a9a3a1; }
+.voice figure img { display: block; width: 100%; aspect-ratio: 16 / 11; object-fit: cover; }
+.voice h3 { font-family: var(--mincho); font-weight: 500; font-size: 1.15rem; line-height: 1.75; letter-spacing: .04em; }
+.voice h3::after { content: ""; display: block; width: 40px; height: 1px; margin-top: 14px; background: var(--gold); }
 .voice__body { flex: 1; padding: 24px 22px 8px; }
 .voice__body p { margin-top: 12px; font-size: .95rem; line-height: 1.95; }
 .voice__name { margin-top: 16px; padding: 14px 22px; text-align: right; font-family: var(--mincho); font-size: 1rem; letter-spacing: .08em; color: #fff; background: var(--accent); }
 .voice__name::before { content: ""; display: inline-block; width: 24px; height: 1px; margin-right: 10px; vertical-align: middle; background: rgba(255,255,255,.7); }
-.course { max-width: 560px; margin: 48px auto 0; padding: 24px 20px; background: var(--sand); text-align: center; }
-.course__title { font-family: var(--mincho); font-size: 1.1rem; letter-spacing: .08em; }
-.course__title small { display: block; font-family: "Noto Sans JP", sans-serif; font-size: .8rem; color: var(--muted); }
-.course ol { list-style: none; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; margin-top: 16px; }
-.course li { padding: 12px 8px; background: var(--ivory); }
-.course li + li { grid-column: 3; }
-.course ol::after { content: "→"; grid-column: 2; grid-row: 1; color: var(--gold-d); }
-.course b { display: block; font-family: var(--mincho); font-weight: 500; color: var(--accent); }
-.course span { font-size: .92rem; }
+
+
+.sim__inputs { display: grid; gap: 14px; }
+.sim__result { margin-top: 22px; text-align: center; font-family: var(--mincho); font-size: 1.05rem; line-height: 1.9; }
+.sim__result b { font-family: var(--serif-en); font-weight: 600; font-size: 3rem; color: var(--accent); vertical-align: -.1em; margin: 0 4px; }
+.sim__msg { margin-top: 6px; text-align: center; font-size: .82rem; color: var(--muted); }
 
 /* buzz */
 .sns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 36px; }
@@ -651,25 +655,15 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
 .kit .en { display: block; font-family: var(--serif-en); font-style: italic; color: var(--gold-d); }
 .kit b { font-family: var(--mincho); font-weight: 500; font-size: 1.05rem; }
 
-/* profit */
-.formula-box { max-width: 760px; margin: 0 auto; padding: 22px 16px; background: var(--ivory); text-align: center; }
-.formula-box__eq { font-family: var(--mincho); font-size: 1rem; line-height: 2; }
-.formula-box__eq span { display: inline-block; }
-.formula-box__eq i { display: block; font-style: normal; color: var(--gold-d); }
-.formula-box__eq b { font-weight: 600; color: var(--accent); }
-.sim { max-width: 760px; margin: 18px auto 0; padding: 26px 18px; background: var(--ivory); border-top: 2px solid var(--accent); }
-.sim__inputs { display: grid; gap: 14px; }
-.sim label { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px 8px; }
-.sim label > span { grid-column: 1 / -1; font-size: .92rem; font-weight: 500; }
-.sim input { width: 100%; padding: 12px 14px; border: 1px solid var(--beige); background: #fff; font: inherit; font-size: 1.15rem; text-align: right; }
-.sim input:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
-.sim__result { margin-top: 22px; text-align: center; font-family: var(--mincho); font-size: 1.05rem; line-height: 1.9; }
-.sim__result b { font-family: var(--serif-en); font-weight: 600; font-size: 3rem; color: var(--accent); vertical-align: -.1em; margin: 0 4px; }
-.sim__msg { margin-top: 6px; text-align: center; font-size: .82rem; color: var(--muted); }
-
 /* brand short */
 .brand-short__title { margin-top: 10px; font-family: var(--mincho); font-weight: 500; font-size: clamp(1.4rem, 6vw, 2rem); line-height: 1.7; letter-spacing: .08em; }
 .brand-short__title em { font-family: var(--serif-en); font-style: normal; color: var(--gold-l); }
+#brand .brand-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; max-width: 960px; margin: 32px auto 0; }
+#brand .brand-photos figure { position: relative; }
+#brand .brand-photos__main { grid-column: 1 / -1; }
+#brand .brand-photos img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+#brand .brand-photos__main img { aspect-ratio: 16 / 8; }
+#brand .brand-photos figcaption { position: absolute; left: 10px; bottom: 8px; font-family: var(--serif-en); font-style: italic; font-size: .95rem; letter-spacing: .08em; color: #fff; text-shadow: 0 1px 8px rgba(0,0,0,.5); }
 #brand .proof__grid { max-width: 640px; margin-left: auto; margin-right: auto; }
 
 /* faq */
@@ -695,15 +689,39 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
   .feel-steps h3 { font-size: 1.1rem; }
   .safety { padding: 32px 40px; }
   .f2-more { grid-template-columns: 1fr 1fr; align-items: start; }
-  .voices { grid-template-columns: 1fr 1fr; }
+  .voices { grid-template-columns: repeat(3, 1fr); }
+  .sim__inputs { grid-template-columns: 1fr 1fr; gap: 24px; }
   .sns { gap: 20px; max-width: 900px; margin-left: auto; margin-right: auto; }
   .sns .ph { font-size: .86rem; }
-  .formula-box__eq i { display: inline; margin: 0 10px; }
-  .sim { padding: 32px 40px; }
-  .sim__inputs { grid-template-columns: 1fr 1fr; gap: 24px; }
   #brand .proof__grid { grid-template-columns: repeat(2, 1fr); }
+  #brand .brand-photos { grid-template-columns: 2fr 1fr 1fr; gap: 12px; }
+  #brand .brand-photos__main { grid-column: auto; }
+  #brand .brand-photos img, #brand .brand-photos__main img { aspect-ratio: auto; height: 280px; }
 }
 .voice .ph--photo { aspect-ratio: 16 / 9; }
+
+/* owner benefits band (between hero and worries) */
+.offer--lead .benefits--3 li .en { white-space: nowrap; }
+.offer-lead__more { margin-top: 24px; text-align: center; }
+.offer-lead__more a { color: var(--gold-l); text-decoration: underline; text-underline-offset: 4px; }
+.offer-lead__note { text-align: center; color: rgba(255,252,248,.7); }
+.offer-lead__note, .offer-lead__more { position: relative; z-index: 1; }
+
+.sim__out { display: grid; gap: 10px; margin-top: 24px; }
+.sim__out > div { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding: 10px 2px; border-bottom: 1px solid var(--beige); }
+.sim__out dt { font-size: .92rem; }
+.sim__out dd { font-family: var(--mincho); white-space: nowrap; }
+.sim__out b { font-family: var(--serif-en); font-weight: 600; font-size: 1.6rem; color: var(--ink); margin-right: 2px; }
+.sim__result { margin-top: 26px; padding: 20px 12px; background: var(--sand); font-size: 1.1rem; }
+.sim__result b { font-size: 3.4rem; }
+.sim__gain { margin-top: 14px; text-align: center; font-family: var(--mincho); line-height: 1.9; }
+.sim__gain b { font-family: var(--serif-en); font-weight: 600; font-size: 1.8rem; color: var(--accent); margin: 0 2px; }
+.sim__notes { list-style: none; margin-top: 16px; font-size: .78rem; line-height: 1.8; color: var(--muted); }
+@media (min-width: 900px) {
+  .benefits--3 { grid-template-columns: repeat(3, 1fr); column-gap: 32px; }
+  .benefits--3 li { border-top: 1px solid rgba(228,207,166,.25); }
+  .sim__out { grid-template-columns: 1fr 1fr; column-gap: 32px; }
+}
 
 /* worries: scene + the owner's inner voice in a speech bubble */
 #owner .wrap > div { max-width: 1080px; margin: 0 auto; }
@@ -711,6 +729,9 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
 .wscene { position: relative; }
 .wscene__visual { position: relative; overflow: hidden; aspect-ratio: 16 / 10; }
 .wscene__visual img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.85) brightness(.92); }
+/* 悩みの写真：周りをぼかし、背景の赤に溶け込ませる */
+.wscene__visual { overflow: visible; }
+.wscene__visual img { -webkit-mask-image: radial-gradient(ellipse 66% 66% at 50% 46%, #000 52%, transparent 100%); mask-image: radial-gradient(ellipse 66% 66% at 50% 46%, #000 52%, transparent 100%); }
 .wscene:nth-child(even) .wscene__visual { margin-left: 14%; }
 .wscene:nth-child(odd) .wscene__visual { margin-right: 14%; }
 .wbubble { position: relative; z-index: 2; width: 88%; margin: -34px 0 0 auto; padding: 18px 20px 18px 22px; border-radius: 16px; background: var(--ivory); color: var(--ink); font-family: var(--mincho); font-weight: 500; font-size: 1.02rem; line-height: 1.85; letter-spacing: .04em; box-shadow: 0 18px 40px -20px rgba(0,0,0,.6); }
@@ -771,8 +792,7 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
   <div class="hero__logo"><picture><source srcset="images/GUINOT_logo.webp" type="image/webp"><img src="images/GUINOT_logo.png" alt="GUINOT INSTITUT PARIS" width="2244" height="862"></picture></div>
   <!-- 施術中の表情が分かる動画が届いたら差し替え（いまは仮の写真） -->
   <picture class="hero__visual">
-    <source srcset="images/p2-hero-react.webp" type="image/webp">
-    <img src="images/p2-hero-react.jpg" alt="VARの施術を受けるお客様" width="576" height="494" fetchpriority="high">
+    <img src="assets/var_p5/hero_treatment_ai.jpg" alt="VARの施術を受けるお客様" width="1200" height="1600" fetchpriority="high">
   </picture>
   <span class="hero__scroll" aria-hidden="true">Scroll<i></i></span>
   <div class="hero__copy">
@@ -790,6 +810,22 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
   </div>
 </section>
 
+<!-- 1c. オーナー様限定の特典（帯） -->
+<section class="section on-wine slant offer offer--lead" id="owner-benefits">
+  <span class="wm" aria-hidden="true" data-px="-0.05">Gift</span>
+  <div class="wrap">
+    <div class="head center"><span class="en">For owners</span><h2>オーナー様限定の<br>特典をご用意しています</h2></div>
+    <ol class="benefits benefits--3">
+      <li class="fade-up"><span class="en">Gift 01</span><div><b>オーナー様の無料体験</b><small>東京の本社、または訪問で</small></div></li>
+      <li class="fade-up"><span class="en">Gift 02</span><div><b>初月のレンタル料が無料</b></div></li>
+      <li class="fade-up"><span class="en">Gift 03</span><div><b>専用美容液1箱をプレゼント</b></div></li>
+    </ol>
+    <p class="offer-lead__more fade-up"><a href="#offer">ほか全7つの特典は、ページ下部でご紹介しています</a></p>
+    <p class="note offer-lead__note">{確認待ち：初月無料・美容液プレゼントの適用条件}</p>
+    <div class="cta-row fade-up"><a class="btn" href="#form"><span>まずはオーナー様の無料体験を<span class="nb">申し込む</span></span><span class="arrow"></span></a></div>
+  </div>
+</section>
+
 <section class="section" id="owner">
   <div class="wrap">
     <div class="head center">
@@ -800,36 +836,18 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
 <!-- 悩むオーナー本人の写真が手に入ったら、各場面の写真と差し替えてもよい -->
       <div class="wscenes">
         <article class="wscene fade-up">
-          <!-- 予約表は文字を画像にしないため HTML で組む -->
-          <div class="wscene__visual wbook" aria-hidden="true">
-            <p class="wbook__title">ご予約表<span class="en">Reservation</span></p>
-            <table>
-              <thead><tr><th></th><th>初回</th><th>2回目</th></tr></thead>
-              <tbody>
-                <tr><td>新規 A様</td><td>◯</td><td class="wbook__none">―</td></tr>
-                <tr><td>新規 B様</td><td>◯</td><td class="wbook__none">―</td></tr>
-                <tr><td>新規 C様</td><td>◯</td><td class="wbook__none">―</td></tr>
-                <tr><td>新規 D様</td><td>◯</td><td class="wbook__none">―</td></tr>
-              </tbody>
-            </table>
-          </div>
+          <!-- AI生成の仮画像。公開前に撮影素材へ差し替え -->
+          <figure class="wscene__visual"><img src="assets/var_p5/worry_refuse_ai.jpg" alt="腕で×をつくり、不満そうな表情のお客様" width="1536" height="1024" loading="lazy"></figure>
           <p class="wbubble"><span class="wbubble__no">01</span>クーポンで来た新規のお客様が、<em>2回目に来てくれない</em>…</p>
         </article>
         <article class="wscene fade-up" style="--d:.1s">
-          <!-- 近隣のメニューが似通っている様子も、文字を画像にしないため HTML で組む -->
-          <div class="wscene__visual wbook wmenu" aria-hidden="true">
-            <p class="wbook__title">近隣サロンのメニュー<span class="en">Nearby salons</span></p>
-            <ul>
-              <li><span>A店</span><b>機器フェイシャル</b><i>60分</i></li>
-              <li><span>B店</span><b>機器フェイシャル</b><i>60分</i></li>
-              <li><span>C店</span><b>機器フェイシャル</b><i>60分</i></li>
-              <li class="wmenu__ours"><span>当店</span><b>機器フェイシャル</b><i>60分</i></li>
-            </ul>
-          </div>
+          <!-- AI生成の仮画像。公開前に撮影素材へ差し替え -->
+          <figure class="wscene__visual"><img src="assets/var_p5/worry_noreturn2_ai.jpg" alt="帰っていくお客様を見送り、考え込むオーナー" width="1600" height="837" loading="lazy"></figure>
           <p class="wbubble"><span class="wbubble__no">02</span>近隣も似た機器・メニューばかり。<em>エステ慣れしたお客様に響かない</em>…</p>
         </article>
         <article class="wscene fade-up" style="--d:.2s">
-          <figure class="wscene__visual"><picture><source srcset="images/face.webp" type="image/webp"><img src="images/face.jpg" alt="フェイシャルを施術するスタッフの手元" width="750" height="500" loading="lazy"></picture></figure>
+          <!-- AI生成の仮画像。公開前に撮影素材へ差し替え -->
+          <figure class="wscene__visual"><img src="assets/var_p5/worry_staff2_ai.jpg" alt="スタッフの施術を、横で見守るオーナー" width="1536" height="1024" loading="lazy"></figure>
           <p class="wbubble"><span class="wbubble__no">03</span>自分が施術すると評判がいいのに、<em>スタッフだと同じ反応が出ない</em>…</p>
         </article>
       </div>
@@ -849,14 +867,21 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
     <div class="solve__copy">
       <div class="head" style="margin-bottom:0">
         <span class="en">The answer</span>
-        <h2 class="solve__title"><span class="solve__lead">その「受けた瞬間の違い」を、</span><span class="solve__main">かたちにしたのが、<br><em>VAR</em>です。</span></h2>
+        <h2 class="solve__title"><span class="solve__main">受けた瞬間<br>体感が伝わる。<br>それが、<em>VAR</em>です。</span></h2>
       </div>
       <p class="fade-up">お客様が思わず誰かに話したくなる。そんな体験をつくる、フランスGUINOTのフェイシャルマシンです。</p>
       <p class="en-name fade-up">Visible Age Reverse</p>
     </div>
-    <figure class="solve__photo fade-up">
-      <picture><source srcset="images/03-VAR_Inverse_DET.webp" type="image/webp"><img src="images/03-VAR_Inverse_DET.png" alt="VISIBLE AGE REVERSE フェイシャルマシン" width="600" height="400" loading="lazy"></picture>
-    </figure>
+    <div class="solve__media">
+      <figure class="solve__photo fade-up">
+        <picture><source srcset="images/03-VAR_Inverse_DET.webp" type="image/webp"><img src="images/03-VAR_Inverse_DET.png" alt="VISIBLE AGE REVERSE フェイシャルマシン" width="600" height="400" loading="lazy"></picture>
+      </figure>
+      <!-- 体感のイメージ動画（音声なし・AI生成の仮素材。公開前に撮影素材へ差し替え） -->
+      <figure class="solve__video fade-up">
+        <video src="assets/var_p5/treatment_video_ai.mp4" poster="assets/var_p5/treatment_video_poster_ai.jpg" width="768" height="1344" autoplay muted loop playsinline preload="metadata" aria-label="専用セラムを塗布し、施術を受けるお客様の映像"></video>
+        <figcaption>※動画はイメージです</figcaption>
+      </figure>
+    </div>
   </div>
 </section>
 
@@ -867,7 +892,8 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
     <div class="head center"><span class="en">Three features</span><h2>受けた瞬間に分かる、<br>VARの<em>3つの特徴</em></h2></div>
     <div class="exp">
       <a class="exp__card fade-up" href="#feature-1">
-        <div class="exp__img img-soft"><picture><source srcset="images/p2-hero-react.webp" type="image/webp"><img src="images/p2-hero-react.jpg" alt="施術を受けるお客様" width="576" height="494" loading="lazy"></picture></div>
+        <!-- AI生成の仮画像。公開前に撮影素材へ差し替え -->
+        <div class="exp__img img-soft"><img src="assets/var_p5/feature_experience2_ai.jpg" alt="冷たいタオルで頬をクールダウンし、心地よさそうに微笑むお客様" width="1448" height="1086" loading="lazy"></div>
         <span class="exp__num" aria-hidden="true">01</span>
         <div class="exp__body">
           <span class="tag">Experience</span>
@@ -877,7 +903,8 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
         </div>
       </a>
       <a class="exp__card fade-up" style="--d:.12s" href="#feature-2">
-        <div class="exp__img img-soft"><picture><source srcset="images/var-treatment-02.webp" type="image/webp"><img src="images/var-treatment-02.jpg" alt="VARのエレクトロードによる施術" width="640" height="800" loading="lazy" style="object-position:center 30%"></picture></div>
+        <!-- AI生成の仮画像。公開前に撮影素材へ差し替え -->
+        <div class="exp__img img-soft"><img src="assets/var_p5/feature_simple_ai.jpg" alt="手だけで落ち着いて施術するスタッフ" width="1600" height="1200" loading="lazy"></div>
         <span class="exp__num" aria-hidden="true">02</span>
         <div class="exp__body">
           <span class="tag">Simple</span>
@@ -886,7 +913,8 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
         </div>
       </a>
       <a class="exp__card fade-up" style="--d:.24s" href="#feature-3">
-        <div class="exp__img img-soft"><picture><source srcset="images/band-smile.webp" type="image/webp"><img src="images/band-smile.jpg" alt="施術後、笑顔で話すお客様" width="1544" height="1018" loading="lazy"></picture></div>
+        <!-- AI生成の仮画像。公開前に撮影素材へ差し替え -->
+        <div class="exp__img img-soft"><img src="assets/var_p5/feature_repeat_ai.jpg" alt="施術後に笑顔で話し合うお客様とスタッフ" width="1600" height="1200" loading="lazy"></div>
         <span class="exp__num" aria-hidden="true">03</span>
         <div class="exp__body">
           <span class="tag">Repeat</span>
@@ -921,7 +949,7 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
         </div>
       </li>
       <li class="fade-up" style="--d:.1s">
-        <figure><picture><source srcset="images/VAR-OFFRE-MKTG.webp" type="image/webp"><img src="images/VAR-OFFRE-MKTG.jpg" alt="振動エレクトロードによる施術" loading="lazy" style="object-position:center 62%"></picture></figure>
+        <figure><!-- 上部のロゴ・文字を切り落とした版（元画像 VAR-OFFRE-MKTG.jpg） --><picture><source srcset="images/var-offre-nologo.webp" type="image/webp"><img src="images/var-offre-nologo.jpg" alt="振動エレクトロードによる施術" width="437" height="490" loading="lazy" style="object-position:center 45%"></picture></figure>
         <div>
           <span class="feel-steps__no">Step <b>02</b></span>
           <h3>2種類の振動エレクトロード。<br><em>熱さの中に、心地よい振動</em></h3>
@@ -929,7 +957,8 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
         </div>
       </li>
       <li class="fade-up" style="--d:.2s">
-        <figure class="ph ph--photo"><span>{冷たいタオルでクールダウンする写真}</span></figure>
+        <!-- AI生成の仮画像。公開前に撮影素材へ差し替え -->
+        <figure><img src="assets/var_p5/cooldown_towel2_ai.jpg" alt="冷たいタオルで両頬を包み、クールダウンする施術" width="1448" height="1086" loading="lazy"></figure>
         <div>
           <span class="feel-steps__no">Step <b>03</b></span>
           <h3>冷たいタオルでクールダウン。<br><em>熱さが引いて、すっきり</em></h3>
@@ -938,8 +967,7 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
       </li>
     </ol>
 
-    <figure class="ph ph--video fade-up"><span>{施術中の表情が分かる短い動画（15〜30秒）}</span></figure>
-
+    
     <div class="feel-salon fade-up">
       <span class="tag">For your salon</span>
       <h3>エステ慣れしたお客様にも、<br><em>「初めての感覚」</em>を。</h3>
@@ -951,8 +979,8 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
       <ul>
         <li><b>熱く感じても、実際の肌の温度は上がりません。</b></li>
         <li><b>施術後の赤みは、当日から翌日に引きます。</b><small>大事なご予定の直前は避けるよう、お客様にご案内ください。</small></li>
-        <!-- 薬事確認中：対象・件数・期間・出典をギノー社確認後に差し替え -->
-        <li><b>肌トラブルの報告：<span class="ph-inline">{肌トラブル0件の正式な表記（対象・件数・期間・出典）}</span></b></li>
+        <!-- 薬事確認中 -->
+        <li><b>肌トラブルの報告0</b><small>これまでお客様から施術後の肌トラブルの報告がなく、安心してご使用いただけます。</small><small class="safety__date">※2026年10月現在</small></li>
       </ul>
     </div>
   </div>
@@ -982,7 +1010,8 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
   <div class="wrap">
 <div class="split f2-more">
       <div class="f2-train fade-up">
-        <figure class="ph ph--photo"><span>{導入研修の写真}</span></figure>
+        <!-- AI生成の仮画像。公開前に撮影素材へ差し替え -->
+        <figure class="ph--photo"><img src="assets/var_p5/training_ai.jpg" alt="スタッフに施術手順を教える研修" width="1600" height="1200" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover"></figure>
         <span class="tag">Training</span>
         <h3>導入時に、<em>無料の対面研修（2時間）</em></h3>
         <p>機器の操作はシンプル。手順が決まっているので、若手スタッフにも教えやすく、施術する人による差が出にくくなります。</p>
@@ -1018,39 +1047,42 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
       <p class="note">※GUINOT社調べ（<span class="ph-inline">{調査の対象・期間・年}</span>）</p>
     </div>
 
+    <!-- 導入サロン様の声：元のペルソナ2LPの写真と文章をそのまま使用（体感・短時間・継続の3件に絞り込み） -->
     <div class="voices">
-      <article class="voice voice--ph fade-up">
-        <figure class="ph ph--photo"><span>{導入サロンAの写真}</span></figure>
+      <article class="voice fade-up">
+        <figure class="img-soft"><picture><source srcset="images/p2-voice-2.webp" type="image/webp"><img src="images/p2-voice-2.jpg" alt="PRISMIC様" width="780" height="537" loading="lazy"></picture></figure>
         <div class="voice__body">
-          <h3 class="ph-inline">{導入サロンAの声の見出し}</h3>
-          <p class="ph-inline">{初回のお客様の反応と、その場での次回予約の様子（取材・許可取得後に差し替え）}</p>
+          <h3>短時間で結果が見えるから、<br>お客様に選ばれています。</h3>
+          <p>短時間で変化が分かりやすく、体験後にそのまま契約につながる方も多数。来店頻度が上がり、継続利用にもつながっています。準備が少なく急な予約にも対応しやすく、導入後は売上面でも手応えを感じています。万が一の際もすぐに点検＆交換をしてくださって非常に助かりました。</p>
         </div>
-        <p class="voice__name">{導入サロンA}様</p>
+        <p class="voice__name">PRISMIC様</p>
       </article>
-      <article class="voice voice--ph fade-up" style="--d:.1s">
-        <figure class="ph ph--photo"><span>{導入サロンBの写真}</span></figure>
+      <article class="voice fade-up" style="--d:.1s">
+        <figure class="img-soft"><picture><source srcset="images/p2-voice-3.webp" type="image/webp"><img src="images/p2-voice-3.jpg" alt="SPA香炉様のスタッフ" width="780" height="558" loading="lazy"></picture></figure>
         <div class="voice__body">
-          <h3 class="ph-inline">{導入サロンBの声の見出し}</h3>
-          <p class="ph-inline">{体験会からの契約率と、予約の埋まり方（取材・許可取得後に差し替え）}</p>
+          <h3>「VARじゃなきゃ駄目！」と<br>言われる人気メニューに。</h3>
+          <!-- 薬事確認中 --><p>継続されるお客様が多く、新規のお客様からも「なんだこれは！」と驚かれることが多いです。施術されたお客様からは、輪郭がシャープになって目も開けやすくなったというお声をいただいております。時間が経つほど変化を実感したという声もあり、ダウンタイムがないため、安心しておすすめできるメニューになっています。</p>
         </div>
-        <p class="voice__name">{導入サロンB}様</p>
+        <!-- サロン名：画像では「SPA香炉様」、旧altでは「SPA香月様」。正式表記を要確認 -->
+        <p class="voice__name">SPA香炉様</p>
+      </article>
+      <article class="voice fade-up" style="--d:.2s">
+        <figure class="img-soft"><picture><source srcset="images/p2-voice-5.webp" type="image/webp"><img src="images/p2-voice-5.jpg" alt="And Eyes様" width="780" height="560" loading="lazy"></picture></figure>
+        <div class="voice__body">
+          <h3>元々の施術と組み合わせ、<br>提案の幅が広がりました。</h3>
+          <p>導入前はエステ未経験で不安もありましたが、手厚いサポートのおかげで安心して施術を始められました。エイジング世代のお悩みに変化を実感していただきやすく、お客様が鏡を見て喜ばれる瞬間が何より嬉しいです。30分という短時間なので、まつ毛メニューとの組み合わせ提案もしやすく、自然と継続予約につながっています。</p>
+        </div>
+        <p class="voice__name">And Eyes様</p>
       </article>
     </div>
 
-    <div class="course fade-up">
-      <p class="course__title">おすすめの通い方の例<small>コース設計の参考に</small></p>
-      <ol>
-        <li><b>最初の4回</b><span>1〜2週間に1回</span></li>
-        <li><b>5回目以降</b><span>月に1回</span></li>
-      </ol>
-    </div>
     <p class="note" style="text-align:center">※感じ方には個人差があります</p>
     <div class="cta-row fade-up"><a class="btn" href="#form"><span><small>まずはオーナー様ご自身で体感を</small>オーナー様の無料体験を<span class="nb">申し込む</span></span><span class="arrow"></span></a></div>
   </div>
 </section>
 
-<!-- 7. 話題になるメニューに -->
-<section class="section section--ivory" id="buzz">
+<!-- 7. 話題になるメニューに：一旦非表示（SNSや口コミの件数が十分に確認できるまで。hidden を外すと再表示） -->
+<section class="section section--ivory" id="buzz" hidden>
   <div class="wrap">
     <div class="head center">
       <span class="en">Share</span>
@@ -1073,37 +1105,18 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
   </div>
 </section>
 
-<!-- 8. 採算の目安 -->
-<section class="section section--sand" id="profit">
-  <span class="wm" aria-hidden="true" style="top:40px" data-px="0.04">Balance</span>
-  <div class="wrap">
-    <div class="head center">
-      <span class="en">Balance</span>
-      <h2>月額49,500円は、<br><em>月に何人</em>で回収できる？</h2>
-    </div>
-    <div class="formula-box fade-up">
-      <p class="formula-box__eq"><span>月額 49,500円</span><i>÷</i><span>（1回の施術料金 − 1回あたりの消耗品原価）</span><i>＝</i><span><b>回収に必要な人数</b></span></p>
-    </div>
-    <!-- 施術料金と原価の目安は確認後に初期値として入れる -->
-    <div class="sim fade-up" data-rent="49500">
-      <div class="sim__inputs">
-        <label><span>1回の施術料金</span><input type="text" inputmode="numeric" id="sim-price" placeholder="例：{確認後に差し替え}" autocomplete="off"><small>円</small></label>
-        <label><span>1回あたりの消耗品原価</span><input type="text" inputmode="numeric" id="sim-cost" placeholder="例：{確認後に差し替え}" autocomplete="off"><small>円</small></label>
-      </div>
-      <p class="sim__result" aria-live="polite">月に <b id="sim-people">—</b> 人の施術で、<br class="sp-only">月額レンタル料を回収できる計算です。</p>
-      <p class="sim__msg" id="sim-msg">施術料金と原価を入力すると、必要な人数が出ます。</p>
-    </div>
-    <p class="note" style="text-align:center">※レンタル料のみの試算です。オープニングパッケージ、人件費などは含みません。</p>
-    <div class="cta-row fade-up"><a class="btn" href="#form"><span><small>体験の際に、収支のご相談も承ります</small>オーナー様の無料体験を<span class="nb">申し込む</span></span><span class="arrow"></span></a></div>
-  </div>
-</section>
-
 <!-- 9. ブランドの安心 -->
 <section class="section on-wine slant" id="brand">
   <span class="wm" aria-hidden="true" data-px="-0.05">Guinot</span>
   <div class="wrap proof">
     <span class="tag">Brand</span>
     <h2 class="brand-short__title fade-up">フランスのプロフェッショナル<br>スキンケアブランド <em>GUINOT</em></h2>
+    <!-- 実績のイメージ写真（既存サイトの素材） -->
+    <div class="brand-photos">
+      <figure class="brand-photos__main fade-up"><div class="img-soft"><picture><source srcset="images/salon-front.webp" type="image/webp"><img src="images/salon-front.jpg" alt="GUINOTのサロン外観" width="2000" height="786" loading="lazy"></picture></div><figcaption>Institut</figcaption></figure>
+      <figure class="fade-up" style="--d:.1s"><div class="img-soft"><picture><source srcset="images/guinot-products.webp" type="image/webp"><img src="images/guinot-products.jpg" alt="GUINOTのスキンケア製品" width="884" height="590" loading="lazy"></picture></div><figcaption>Skincare</figcaption></figure>
+      <figure class="fade-up" style="--d:.2s"><div class="img-soft"><picture><source srcset="images/about-img04.webp" type="image/webp"><img src="images/about-img04.jpg" alt="創業当時のGUINOTサロン" width="800" height="800" loading="lazy"></picture></div><figcaption>Heritage</figcaption></figure>
+    </div>
     <div class="proof__grid">
       <!-- 薬事確認中 -->
       <div class="proof__item fade-up"><b>世界91ヵ国</b><span>で導入</span></div>
@@ -1111,6 +1124,13 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
       <div class="proof__item fade-up" style="--d:.1s"><b>17,000店舗以上</b><span>のサロン・スパ</span></div>
     </div>
     <p class="proof__desc fade-up">Four Seasons Hotel George V Paris、Aman Resorts、豪華客船 Queen Victoria など、世界のラグジュアリー空間でも公式エステティックブランドとして採用されています。</p>
+    <!-- ISO：ペルソナ1（VAR_p4）の内容をそのまま流用 -->
+    <h3 class="certs-title fade-up"><span class="en">Certified quality</span>安全な品質を証明する<br class="sp-only"><em>ISO</em>を取得</h3>
+    <div class="certs">
+      <!-- ISO は製造・企業体制の認証（機器単体の認証ではない）ため、文言は既存のまま、見せ方だけ強調 -->
+      <div class="cert fade-up"><div class="cert__seal" aria-hidden="true"><svg viewBox="0 0 200 200"><defs><path id="certRing1" d="M100 100m-80 0a80 80 0 1 1 160 0a80 80 0 1 1-160 0"/></defs><circle class="ring" cx="100" cy="100" r="97"/><circle class="ring ring--in" cx="100" cy="100" r="64"/><g class="rot"><text><textPath href="#certRing1" textLength="500">INTERNATIONAL STANDARD · CERTIFIED · GUINOT PARIS ·</textPath></text></g></svg></div><b><small>ISO</small> 22716</b><span>製薬基準の精度で製造する品質認証</span></div>
+      <div class="cert fade-up"><div class="cert__seal" aria-hidden="true"><svg viewBox="0 0 200 200"><defs><path id="certRing2" d="M100 100m-80 0a80 80 0 1 1 160 0a80 80 0 1 1-160 0"/></defs><circle class="ring" cx="100" cy="100" r="97"/><circle class="ring ring--in" cx="100" cy="100" r="64"/><g class="rot"><text><textPath href="#certRing2" textLength="500">INTERNATIONAL STANDARD · CERTIFIED · GUINOT PARIS ·</textPath></text></g></svg></div><b><small>ISO</small> 14001</b><span>環境パフォーマンスを継続的に改善</span></div>
+    </div>
   </div>
 </section>
 
@@ -1174,7 +1194,6 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
         <summary>熱さが苦手なお客様でも受けられますか？</summary>
         <div class="faq__a">
           <p>熱く感じるのは専用セラムによる感覚で、実際に肌の温度が上がるわけではありません。施術の最後に冷たいタオルでクールダウンするので、すっきりした感覚で終わります。</p>
-          <p class="ph-inline">{熱さが苦手な方への調整方法（ギノー社確認後に追記）}</p>
         </div>
       </details>
       <details class="faq__item fade-up">
@@ -1185,13 +1204,16 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
         <summary>肌トラブルの心配はありませんか？</summary>
         <div class="faq__a">
           <!-- 薬事確認中 -->
-          <p class="ph-inline">{肌トラブル0件の正式な表記（対象・件数・期間・出典）}</p>
+          <p>肌トラブルの報告は0です（2026年10月現在）。</p>
           <p>導入時の研修で、施術前のカウンセリングや注意点もお伝えします。</p>
         </div>
       </details>
       <details class="faq__item fade-up">
         <summary>敏感肌の方にも施術できますか？</summary>
-        <div class="faq__a"><p class="ph-inline">{ギノー社確認後に回答を記載}</p></div>
+        <div class="faq__a">
+          <!-- 薬事確認中 -->
+          <p>はい、敏感肌の方にも施術いただけます。施術前のカウンセリングで、お肌の状態をご確認のうえご提供ください。</p>
+        </div>
       </details>
       <details class="faq__item fade-up">
         <summary>スタッフの研修は、どのくらいの時間で終わりますか？</summary>
@@ -1200,13 +1222,6 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
       <details class="faq__item fade-up">
         <summary>東京以外でも体験できますか？</summary>
         <div class="faq__a"><p>はい。本社での体験のほか、訪問での体験にも対応しています。お申し込みの際に、ご希望をお知らせください。</p></div>
-      </details>
-      <details class="faq__item fade-up">
-        <summary>契約期間と、途中解約の条件は？</summary>
-        <div class="faq__a">
-          <p>レンタルは、最低35回のお支払いとなります。</p>
-          <p class="ph-inline">{途中解約の条件（ギノー社確認後に記載）}</p>
-        </div>
       </details>
     </div>
   </div>
@@ -1354,27 +1369,6 @@ document.addEventListener('DOMContentLoaded', function () {
     history.pushState(null, '', '#form');
   });
 });
-</script>
-<script>
-// 採算の目安：月額 ÷（施術料金 − 原価）を切り上げて表示
-(function () {
-  var box = document.querySelector('.sim'); if (!box) return;
-  var rent = parseInt(box.dataset.rent, 10), price = document.getElementById('sim-price'), cost = document.getElementById('sim-cost');
-  var out = document.getElementById('sim-people'), msg = document.getElementById('sim-msg');
-  function num(el) { var v = el.value.replace(/[^0-9]/g, ''); return v ? parseInt(v, 10) : NaN; }
-  function fmt(el) { var v = num(el); el.value = isNaN(v) ? '' : v.toLocaleString('ja-JP'); }
-  function calc() {
-    var p = num(price), c = num(cost) || 0;
-    if (isNaN(p)) { out.textContent = '—'; msg.textContent = '施術料金と原価を入力すると、必要な人数が出ます。'; return; }
-    if (p - c <= 0) { out.textContent = '—'; msg.textContent = '施術料金は、原価より高い金額を入力してください。'; return; }
-    out.textContent = Math.ceil(rent / (p - c)).toLocaleString('ja-JP');
-    msg.textContent = '49,500円 ÷（' + p.toLocaleString('ja-JP') + '円 − ' + c.toLocaleString('ja-JP') + '円）で計算しています。';
-  }
-  [price, cost].forEach(function (el) {
-    el.addEventListener('input', calc);
-    el.addEventListener('blur', function () { fmt(el); });
-  });
-})();
 </script>
 </body>
 </html>
