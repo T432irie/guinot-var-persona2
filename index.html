@@ -56,10 +56,11 @@ body { font-family: "Noto Sans JP", sans-serif; font-size: 16px; color: var(--in
 img { display: block; max-width: 100%; height: auto; }
 a { color: inherit; text-decoration: none; }
 em { font-style: normal; }
-h1, h2, h3, p, li, b { word-break: auto-phrase; line-break: strict; }
+/* auto-phrase は端末・ブラウザ差で1文字折りになることがあるため使わない */
+h1, h2, h3, p, li, b { word-break: normal; overflow-wrap: break-word; line-break: strict; }
 .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gut); position: relative; z-index: 2; }
 .en { font-family: var(--serif-en); font-style: italic; font-weight: 500; letter-spacing: 0.06em; }
-.nb { display: inline-block; }
+.nb { display: inline-block; white-space: nowrap; max-width: 100%; }
 .center { text-align: center; }
 .note { margin-top: 16px; font-size: 0.8rem; color: var(--muted); line-height: 1.8; }
 
@@ -99,25 +100,33 @@ h1, h2, h3, p, li, b { word-break: auto-phrase; line-break: strict; }
 .header__cta:hover { background: var(--accent-h); }
 .header__cta .arrow { width: 18px; }
 
-/* ---------- 1. hero : full colour field + type over photo ---------- */
-.hero { position: relative; overflow: hidden; background: var(--red-field-hero); color: var(--ivory); }
-.hero__logo { position: absolute; z-index: 5; top: 18px; left: var(--gut); }
-.hero__logo img { height: 28px; width: auto; }
-/* crop of MV_3 (681x1024): x 300-681 only, so none of the poster's baked-in text shows */
-.hero__visual { position: relative; z-index: 1; display: block; overflow: hidden; aspect-ratio: 381 / 350; }
-.hero__visual img { position: absolute; left: -78.74%; top: 0; margin-top: -22.3%; width: 178.74%; max-width: none; height: auto; transform: scale(1.08); opacity: 0; transition: transform 3s var(--ease), opacity 1.6s ease; }
-.is-loaded .hero__visual img { transform: none; opacity: 1; animation: kenburns 22s ease-in-out 3s infinite alternate; }
+/* ---------- 1. hero : Aesop型・画面全面の動画FV（SP=縦長 / PC=横長） ---------- */
+/* min-height は古いブラウザ向けに vh → dvh → svh の順で上書き */
+.hero { position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-start; min-height: 100vh; min-height: 100dvh; min-height: 100svh; padding: 0; box-sizing: border-box; background: #3a0a14; color: var(--ivory); writing-mode: horizontal-tb; }
+/* SP: ロゴをフロー配置にして見出しとの被りを防ぐ */
+.hero__logo { position: relative; z-index: 6; flex: 0 0 auto; align-self: flex-start; margin: 16px 0 0 var(--gut); }
+.hero__logo img { height: 28px; width: auto; filter: drop-shadow(0 2px 10px rgba(74,10,24,.45)); }
+/* 動画未再生・低電力モードでもポスターが見えるよう背景にも置く */
+.hero__visual { position: absolute; inset: 0; z-index: 0; display: block; overflow: hidden; aspect-ratio: auto; margin: 0; background: #3a0a14 url(videos/hero-portrait-poster.jpg) center / cover no-repeat; }
+.hero__visual img { display: none; }
+.hero__visual .hero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center center; opacity: 0; transition: opacity 1.2s ease; }
+.is-loaded .hero__visual .hero__video { opacity: 1; }
+.hero__video { display: block; }
+.hero__video--landscape { display: none; }
 @keyframes kenburns { from { scale: 1; } to { scale: 1.07; } }
-.hero__visual::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(94,15,32,0) 45%, rgba(94,15,32,.92) 92%, var(--wine) 100%); }
-.hero .wm { top: 56px; font-size: min(26vw, 12rem); color: rgba(255,252,248,.28); z-index: 3; }
-.hero__copy { position: relative; z-index: 4; margin-top: -96px; padding: 0 var(--gut) 36px; }
-.hero__kicker { display: block; font-size: 1rem; color: var(--gold-l); letter-spacing: 0.12em; }
-.hero__title { margin-top: 6px; font-family: var(--mincho); font-weight: 500; font-size: clamp(1.75rem, 7.6vw, 2rem); line-height: 1.5; letter-spacing: 0.12em; }
+.hero__visual::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(90deg, rgba(58,8,18,.9) 0%, rgba(74,10,24,.62) 36%, rgba(94,15,32,.32) 62%, rgba(58,8,18,.48) 100%), linear-gradient(180deg, rgba(74,10,24,.62) 0%, rgba(94,15,32,.28) 34%, rgba(42,6,14,.88) 100%); }
+.hero .wm { display: none; }
+/* 幅・横書きを明示（一部環境で縦に1文字折りになるのを防ぐ） */
+.hero__copy { position: relative; z-index: 4; flex: 0 0 auto; align-self: stretch; width: 100%; max-width: none; margin-top: auto; padding: 20px var(--gut) 36px; box-sizing: border-box; writing-mode: horizontal-tb; text-orientation: mixed; }
+.hero__copy > * { max-width: 36em; writing-mode: horizontal-tb; word-break: normal; overflow-wrap: break-word; }
+.hero__kicker { display: none; }
+.hero__title { margin-top: 0; font-family: var(--mincho); font-weight: 500; font-size: clamp(1.45rem, 6.2vw, 1.85rem); line-height: 1.55; letter-spacing: 0.1em; }
 .hero__h1 { margin-top: 12px; font-family: var(--mincho); font-weight: 500; font-size: 1rem; line-height: 1.95; letter-spacing: 0.08em; color: var(--gold-l); }
 .hero__lead { margin-top: 8px; font-size: 1rem; color: rgba(255,252,248,.82); line-height: 1.85; }
 .hero__copy .btn { margin-top: 22px; }
-.hero__scroll { position: absolute; z-index: 5; right: 18px; bottom: 0; display: none; flex-direction: column; align-items: center; gap: 10px; font-family: var(--serif-en); font-style: italic; font-size: .9rem; letter-spacing: .14em; color: var(--gold-l); writing-mode: vertical-rl; }
-.hero__scroll i { position: relative; display: block; width: 1px; height: 64px; background: rgba(228,207,166,.25); overflow: hidden; }
+/* writing-mode + display:flex の併用は Safari/Firefox で崩れるため、縦書きは block のみ */
+.hero__scroll { position: absolute; z-index: 5; right: 18px; bottom: 12px; display: none; width: max-content; font-family: var(--serif-en); font-style: italic; font-size: .9rem; letter-spacing: .14em; color: var(--gold-l); writing-mode: vertical-rl; text-orientation: mixed; }
+.hero__scroll i { position: relative; display: block; width: 1px; height: 64px; margin: 10px auto 0; background: rgba(228,207,166,.25); overflow: hidden; }
 .hero__scroll i::after { content: ""; position: absolute; inset: 0; background: var(--gold-l); transform-origin: top; animation: scrollLine 2.2s cubic-bezier(.65,0,.35,1) infinite; }
 @keyframes scrollLine { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 50.1% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
 /* dotted world map under the hero button: Paris pulses and gold routes draw out to cities around the world */
@@ -233,7 +242,10 @@ h1, h2, h3, p, li, b { word-break: auto-phrase; line-break: strict; }
 
 /* solve: machine cut-out over giant word */
 /* worries sit in a deep tone; the answer below opens up bright, so the contrast carries the emphasis */
-#owner { background: linear-gradient(180deg, rgba(30,14,17,0) 0%, #3a1a1f 18%, #5e3036 36%, #94676a 54%, #c9a7a1 70%, #e9d8cf 85%, #fbf8f3 100%) bottom / 100% 300px no-repeat, radial-gradient(60% 70% at 20% 30%, rgba(182,18,58,.22) 0%, rgba(182,18,58,0) 70%), linear-gradient(160deg, #3a1a20 0%, #2a1317 55%, #1e0e11 100%); color: var(--ivory); padding-bottom: 300px; }
+#owner { background: linear-gradient(180deg, rgba(30,14,17,0) 0%, #3a1a1f 18%, #5e3036 36%, #94676a 54%, #c9a7a1 70%, #e9d8cf 85%, #fbf8f3 100%) bottom / 100% 140px no-repeat, radial-gradient(60% 70% at 20% 30%, rgba(182,18,58,.22) 0%, rgba(182,18,58,0) 70%), linear-gradient(160deg, #3a1a20 0%, #2a1317 55%, #1e0e11 100%); color: var(--ivory); padding-bottom: 88px; }
+@media (min-width: 900px) {
+  #owner { background-size: 100% 300px, auto, auto; padding-bottom: 300px; }
+}
 #owner .head .en { color: var(--gold-l); }
 #owner .head h2 { color: var(--ivory); }
 #owner .worries li { border-color: rgba(228,207,166,.22); }
@@ -243,8 +255,12 @@ h1, h2, h3, p, li, b { word-break: auto-phrase; line-break: strict; }
 .section.solve { background: linear-gradient(180deg, #fbf8f3 0%, #f6efe6 100%); overflow: visible; }
 /* bridge between worries and answer: a gold line draws down from the dark section and a bead of light keeps travelling it */
 /* centred with left/right 0 (not a transform) so the fade-up transform cannot knock it off centre */
-.bridge { position: absolute; z-index: 3; left: 0; right: 0; top: -96px; display: flex; flex-direction: column; align-items: center; gap: 10px; pointer-events: none; }
-.bridge__line { position: relative; width: 1px; height: 120px; background: linear-gradient(180deg, rgba(228,207,166,0), var(--gold) 40%, var(--gold-d)); transform: scaleY(0); transform-origin: top; transition: transform 1.4s var(--ease); overflow: hidden; }
+.bridge { position: absolute; z-index: 3; left: 0; right: 0; top: -56px; display: flex; flex-direction: column; align-items: center; gap: 8px; pointer-events: none; }
+.bridge__line { position: relative; width: 1px; height: 72px; background: linear-gradient(180deg, rgba(228,207,166,0), var(--gold) 40%, var(--gold-d)); transform: scaleY(0); transform-origin: top; transition: transform 1.4s var(--ease); overflow: hidden; }
+@media (min-width: 900px) {
+  .bridge { top: -96px; gap: 10px; }
+  .bridge__line { height: 120px; }
+}
 .bridge__line::after { content: ""; position: absolute; left: -2px; width: 5px; height: 26px; border-radius: 3px; background: linear-gradient(180deg, rgba(255,240,210,0), #fff6e2, rgba(255,240,210,0)); animation: bridgeBead 2.4s ease-in infinite; }
 @keyframes bridgeBead { from { top: -30px; } to { top: 120px; } }
 .bridge__label { font-family: var(--serif-en); font-style: italic; font-size: 1.1rem; letter-spacing: .14em; color: var(--gold-d); opacity: 0; transform: translateY(-6px); transition: opacity 1s ease .9s, transform 1s var(--ease) .9s; }
@@ -316,7 +332,7 @@ h1, h2, h3, p, li, b { word-break: auto-phrase; line-break: strict; }
 /* a soft pool of light drifting across the band, so the gradient visibly moves */
 .band::before { content: ""; position: absolute; z-index: 1; top: -20%; bottom: -20%; left: 0; width: 70%; pointer-events: none; background: radial-gradient(closest-side, rgba(255,214,200,.42), rgba(255,214,200,.16) 55%, rgba(255,214,200,0)); mix-blend-mode: screen; animation: bandGlow 4.5s ease-in-out infinite alternate; }
 @keyframes bandGlow { 0% { transform: translateX(-45%); opacity: .7; } 50% { opacity: 1; } 100% { transform: translateX(105%); opacity: .75; } }
-.band__copy { position: absolute; z-index: 2; top: 48px; left: var(--gut); writing-mode: vertical-rl; font-family: var(--mincho); font-weight: 500; font-size: clamp(1.7rem, 7.6vw, 2.6rem); line-height: 1.7; letter-spacing: 0.18em; color: #fff; text-shadow: 0 2px 20px rgba(60,10,20,.35); }
+.band__copy { position: absolute; z-index: 2; top: 48px; left: var(--gut); max-height: calc(100% - 72px); writing-mode: vertical-rl; text-orientation: mixed; font-family: var(--mincho); font-weight: 500; font-size: clamp(1.7rem, 7.6vw, 2.6rem); line-height: 1.7; letter-spacing: 0.18em; color: #fff; text-shadow: 0 2px 20px rgba(60,10,20,.35); }
 
 /* three reasons */
 .exp { display: grid; gap: 64px; }
@@ -431,6 +447,10 @@ h1, h2, h3, p, li, b { word-break: auto-phrase; line-break: strict; }
 
 /* SP only: treatment heading sits on the lower part of the photo, photo kept close to square */
 @media (max-width: 899px) {
+  .hero__world { display: none; }
+  .hero__lead { display: none; }
+  .hero__badges { margin-top: 14px; }
+  .hero .note { display: none; }
   #flow .split { gap: 0; }
   #flow .split > div { display: contents; }
   #flow .split > figure { grid-area: 1 / 1; }
@@ -456,22 +476,20 @@ h1, h2, h3, p, li, b { word-break: auto-phrase; line-break: strict; }
   .slant { clip-path: polygon(0 0, 100% 72px, 100% 100%, 0 100%); margin-top: -72px; padding-top: 200px; }
   .head { margin-bottom: 64px; }
 
-  /* hero: one colour field, copy left, photo bleeding off the right edge */
-  /* content sits in a centred 1240px frame so wide monitors do not push copy and photo apart */
-  .hero { display: grid; grid-template-columns: minmax(0, 1fr) min(42vw, 520px); column-gap: clamp(32px, 5vw, 96px); min-height: max(680px, 100vh); padding: 0 max(var(--gut), calc((100vw - 1240px) / 2)); }
-  .hero__logo { top: 28px; left: max(var(--gut), calc((100vw - 1240px) / 2)); }
+  /* hero: 全面動画（横長）＋前面コピー。ロゴはフロー配置のまま（絶対配置に戻さない＝被り防止） */
+  .hero { display: flex; flex-direction: column; justify-content: flex-start; min-height: 100vh; min-height: 100dvh; padding: 0; }
+  .hero__logo { position: relative; top: auto; left: auto; margin: 28px 0 0 max(var(--gut), calc((100vw - 1240px) / 2)); }
   .hero__logo img { height: 36px; }
-  .hero__visual { grid-column: 2; grid-row: 1; aspect-ratio: auto; height: min(100vh - 120px, 900px); min-height: 640px; align-self: center; margin-top: 40px;
-    /* feather all four edges into the background instead of painting a colour over them */
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 26%, #000 88%, transparent 100%), linear-gradient(180deg, transparent 0%, #000 12%, #000 84%, transparent 100%);
-    -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent 0%, #000 26%, #000 88%, transparent 100%), linear-gradient(180deg, transparent 0%, #000 12%, #000 84%, transparent 100%); mask-composite: intersect; }
-  /* same text-free crop (x 300-681), filled to the column width; margin-top % is relative to width */
-  .hero__visual img { top: 0; margin-top: -22.3%; }
-  .hero__visual::after { display: none; }
-  .hero .wm { top: auto; bottom: 0.05em; left: max(var(--gut), calc((100vw - 1240px) / 2)); right: auto; text-align: left; font-size: min(13vw, 12rem); color: rgba(255,252,248,.16); }
-  .hero__copy { grid-column: 1; grid-row: 1; align-self: center; margin: 0; padding: 104px 0 72px; max-width: 620px; justify-self: start; width: 100%; }
-  .hero__title { font-size: clamp(2.6rem, 3.8vw, 3.5rem); }
-  .hero__scroll { display: flex; right: 28px; }
+  .hero__visual { inset: 0; width: 100%; height: 100%; min-height: 0; margin: 0; -webkit-mask-image: none; mask-image: none; background-image: url(videos/hero-landscape-poster.jpg); }
+  .hero__visual .hero__video { object-position: center 35%; }
+  .hero__video--portrait { display: none; }
+  .hero__video--landscape { display: block; }
+  .hero__visual::after { background: linear-gradient(90deg, rgba(58,8,18,.9) 0%, rgba(74,10,24,.62) 36%, rgba(94,15,32,.28) 62%, rgba(58,8,18,.42) 100%), linear-gradient(180deg, rgba(74,10,24,.4) 0%, rgba(94,15,32,.14) 40%, rgba(42,6,14,.78) 100%); }
+  .hero__copy { margin-top: auto; padding: 28px max(var(--gut), calc((100vw - 1240px) / 2)) 56px; width: 100%; }
+  .hero__copy > * { max-width: 720px; }
+  .hero__kicker { display: none; }
+  .hero__title { font-size: clamp(2.2rem, 3.2vw, 3rem); text-shadow: 0 8px 28px rgba(0,0,0,.35); }
+  .hero__scroll { display: block; right: 28px; }
   .concern { padding: 28px 12px 26px; }
   .concern__img { width: 140px; height: 140px; margin-bottom: 16px; }
   .concern b { font-size: 1.3rem; }
@@ -479,7 +497,8 @@ h1, h2, h3, p, li, b { word-break: auto-phrase; line-break: strict; }
   .hero__h1 { margin-top: 18px; }
   .hero__lead { margin-top: 14px; line-height: 2.05; }
   .hero__copy .btn { margin-top: 30px; }
-  .hero__world { margin: 30px 0 0 -24px; width: calc(100% + 48px); max-width: 640px; }
+  .hero__world { display: none; }
+  .hero .note { display: none; }
 
   .highlights__grid { padding: 0 var(--gut); }
   .hl { padding: 30px 12px 28px; }
@@ -551,7 +570,7 @@ h1, h2, h3, p, li, b { word-break: auto-phrase; line-break: strict; }
 
 /* 視差効果を減らす設定への配慮。現在はオフ（JS の RESPECT_REDUCED_MOTION を true にすると戻る） */
 html.reduce-motion *, html.reduce-motion *::before, html.reduce-motion *::after { animation: none !important; transition: none !important; }
-html.reduce-motion .fade-up, html.reduce-motion .hero-fade, html.reduce-motion .hero__visual img { opacity: 1; }
+html.reduce-motion .fade-up, html.reduce-motion .hero-fade, html.reduce-motion .hero__visual img, html.reduce-motion .hero__visual .hero__video { opacity: 1; animation: none; }
 html.reduce-motion .img-soft img, html.reduce-motion .img-soft video { clip-path: none; }
 html.reduce-motion .cta-panel__img img { transform: none; opacity: 1; }
 html.reduce-motion .stat__bar::after { transform: none; }
@@ -577,7 +596,7 @@ html.reduce-motion .fade-up, html.reduce-motion .hero-fade { transform: none; }
 p.ph-inline, h3.ph-inline { display: block; padding: 6px 10px; }
 
 /* hero */
-.hero--p5 .hero__visual img { left: 0; top: 0; margin-top: 0; width: 100%; height: 100%; object-fit: cover; object-position: 42% 40%; }
+.hero--p5 .hero__visual .hero__video { object-fit: cover; object-position: center center; }
 .hero__badges { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
 .hero__badges li { padding: 6px 14px; border-radius: 999px; background: rgba(255,252,248,.1); border: 1px solid rgba(228,207,166,.45); font-family: var(--mincho); font-size: .92rem; letter-spacing: .06em; color: var(--ivory); }
 .hero .note { margin-top: 10px; color: rgba(255,252,248,.62); }
@@ -680,7 +699,7 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
 .faq__a p + p { margin-top: 8px; }
 
 @media (min-width: 900px) {
-  .hero--p5 .hero__visual img { top: 0; margin-top: 0; height: 100%; }
+  .hero--p5 .hero__visual .hero__video { object-position: center 35%; }
   .feel-steps { grid-template-columns: repeat(3, 1fr); gap: 24px; }
   .feel-steps li { grid-template-columns: 1fr; align-items: start; }
   .feel-steps li + li::before { left: -24px; top: 30%; width: 24px; height: 1px; }
@@ -790,20 +809,24 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
 <!-- 1. Hero -->
 <section class="hero hero--p5" id="hero">
   <div class="hero__logo"><picture><source srcset="images/GUINOT_logo.webp" type="image/webp"><img src="images/GUINOT_logo.png" alt="GUINOT INSTITUT PARIS" width="2244" height="862"></picture></div>
-  <!-- 施術中の表情が分かる動画が届いたら差し替え（いまは仮の写真） -->
-  <picture class="hero__visual">
-    <img src="assets/var_p5/hero_treatment_ai.jpg" alt="VARの施術を受けるお客様" width="1200" height="1600" fetchpriority="high">
-  </picture>
+  <!-- メインビジュアル背景：縦長=スマホ、横長=PC（添付のイメージ動画） -->
+  <div class="hero__visual">
+    <video class="hero__video hero__video--portrait" autoplay muted loop playsinline poster="videos/hero-portrait-poster.jpg" width="720" height="1280" aria-label="VARの施術イメージ">
+      <source src="videos/hero-portrait.mp4" type="video/mp4">
+    </video>
+    <video class="hero__video hero__video--landscape" muted loop playsinline poster="videos/hero-landscape-poster.jpg" width="1280" height="720" aria-label="VARの施術イメージ" preload="none">
+      <source src="videos/hero-landscape.mp4" type="video/mp4">
+    </video>
+  </div>
   <span class="hero__scroll" aria-hidden="true">Scroll<i></i></span>
   <div class="hero__copy">
-    <span class="hero__kicker en hero-fade" style="--d:.2s">For salon owners</span>
     <!-- 薬事確認中 -->
-    <h2 class="hero__title hero-fade" style="--d:.35s">初めての30分で、<br>お客様の<br class="sp-only"><span class="nb">反応が変わる。</span></h2>
+    <h2 class="hero__title hero-fade" style="--d:.2s"><span class="nb">初めての30分で、</span><br><span class="nb">お客様の反応が変わる。</span></h2>
     <h1 class="hero__h1 hero-fade" style="--d:.5s">フェイシャルマシン<br>VISIBLE AGE REVERSE（VAR）</h1>
     <!-- 薬事確認中 -->
     <p class="hero__lead hero-fade" style="--d:.6s">塗った瞬間の熱さ、心地よい振動、最後のすっきり感。たった30分のフル施術で、初回から体感が伝わります。</p>
     <ul class="hero__badges hero-fade" style="--d:.68s"><li>1枠30分のフル施術</li><li>無料の対面研修つき</li></ul>
-    <a class="btn hero-fade" style="--d:.75s" href="#form"><span><small>まずはオーナー様ご自身で体感を</small>オーナー様の無料体験を<span class="nb">申し込む</span></span><span class="arrow"></span></a>
+    <a class="btn hero-fade" style="--d:.75s" href="#form"><span><small>まずはオーナー様ご自身で体験を</small>資料請求・無料体験に申し込む</span><span class="arrow"></span></a>
     <p class="note hero-fade" style="--d:.8s">※感じ方には個人差があります</p>
     <!-- 世界のドット地図（world-atlas の国境データから生成）。パリから世界の都市へ線が伸びる -->
     <figure class="hero__world hero-fade" style="--d:1s" aria-hidden="true"><svg class="hero__world-map" viewBox="110 6 860 330" aria-hidden="true" focusable="false"><path class="map-land" d="M157 3h0M164 3h0M171 3h0M227 3h0M241 3h0M248 3h0M346 3h0M353 3h0M360 3h0M367 3h0M374 3h0M381 3h0M388 3h0M395 3h0M402 3h0M409 3h0M416 3h0M423 3h0M430 3h0M437 3h0M654 3h0M745 3h0M752 3h0M759 3h0M766 3h0M773 3h0M780 3h0M787 3h0M794 3h0M801 3h0M808 3h0M878 3h0M10 10h0M17 10h0M24 10h0M31 10h0M38 10h0M45 10h0M52 10h0M59 10h0M66 10h0M73 10h0M80 10h0M87 10h0M94 10h0M101 10h0M108 10h0M115 10h0M122 10h0M129 10h0M136 10h0M143 10h0M150 10h0M157 10h0M164 10h0M171 10h0M178 10h0M185 10h0M192 10h0M199 10h0M206 10h0M213 10h0M220 10h0M227 10h0M234 10h0M241 10h0M248 10h0M255 10h0M262 10h0M269 10h0M276 10h0M283 10h0M290 10h0M297 10h0M304 10h0M311 10h0M318 10h0M325 10h0M332 10h0M339 10h0M346 10h0M353 10h0M360 10h0M367 10h0M374 10h0M381 10h0M388 10h0M395 10h0M402 10h0M409 10h0M416 10h0M423 10h0M430 10h0M437 10h0M444 10h0M451 10h0M458 10h0M465 10h0M472 10h0M479 10h0M486 10h0M493 10h0M500 10h0M507 10h0M514 10h0M521 10h0M528 10h0M535 10h0M542 10h0M549 10h0M556 10h0M563 10h0M570 10h0M577 10h0M584 10h0M591 10h0M598 10h0M605 10h0M612 10h0M619 10h0M626 10h0M633 10h0M640 10h0M647 10h0M654 10h0M661 10h0M668 10h0M675 10h0M682 10h0M689 10h0M696 10h0M703 10h0M710 10h0M717 10h0M724 10h0M731 10h0M738 10h0M745 10h0M752 10h0M759 10h0M766 10h0M773 10h0M780 10h0M787 10h0M794 10h0M801 10h0M808 10h0M815 10h0M822 10h0M829 10h0M836 10h0M843 10h0M850 10h0M857 10h0M864 10h0M871 10h0M878 10h0M885 10h0M892 10h0M899 10h0M906 10h0M913 10h0M920 10h0M927 10h0M934 10h0M941 10h0M948 10h0M955 10h0M962 10h0M969 10h0M976 10h0M983 10h0M990 10h0M997 10h0M3 17h0M10 17h0M17 17h0M24 17h0M31 17h0M38 17h0M45 17h0M52 17h0M59 17h0M66 17h0M73 17h0M80 17h0M87 17h0M94 17h0M101 17h0M108 17h0M115 17h0M122 17h0M129 17h0M136 17h0M143 17h0M150 17h0M157 17h0M164 17h0M171 17h0M178 17h0M185 17h0M192 17h0M199 17h0M206 17h0M213 17h0M220 17h0M227 17h0M234 17h0M241 17h0M248 17h0M255 17h0M262 17h0M269 17h0M276 17h0M283 17h0M290 17h0M297 17h0M304 17h0M311 17h0M318 17h0M325 17h0M332 17h0M339 17h0M346 17h0M353 17h0M360 17h0M367 17h0M374 17h0M381 17h0M388 17h0M395 17h0M402 17h0M409 17h0M416 17h0M423 17h0M430 17h0M437 17h0M444 17h0M451 17h0M458 17h0M465 17h0M472 17h0M479 17h0M486 17h0M493 17h0M500 17h0M507 17h0M514 17h0M521 17h0M528 17h0M535 17h0M542 17h0M549 17h0M556 17h0M563 17h0M570 17h0M577 17h0M605 17h0M612 17h0M619 17h0M626 17h0M633 17h0M640 17h0M647 17h0M654 17h0M661 17h0M668 17h0M689 17h0M703 17h0M17 24h0M31 24h0M38 24h0M45 24h0M52 24h0M59 24h0M66 24h0M73 24h0M80 24h0M87 24h0M94 24h0M101 24h0M108 24h0M115 24h0M122 24h0M129 24h0M136 24h0M143 24h0M150 24h0M157 24h0M164 24h0M171 24h0M178 24h0M185 24h0M192 24h0M199 24h0M206 24h0M213 24h0M220 24h0M227 24h0M234 24h0M241 24h0M248 24h0M255 24h0M262 24h0M269 24h0M276 24h0M283 24h0M290 24h0M297 24h0M304 24h0M311 24h0M318 24h0M325 24h0M332 24h0M339 24h0M346 24h0M353 24h0M360 24h0M367 24h0M374 24h0M381 24h0M388 24h0M395 24h0M402 24h0M409 24h0M416 24h0M423 24h0M430 24h0M437 24h0M444 24h0M451 24h0M458 24h0M465 24h0M472 24h0M479 24h0M486 24h0M493 24h0M500 24h0M507 24h0M514 24h0M521 24h0M528 24h0M535 24h0M542 24h0M549 24h0M556 24h0M563 24h0M570 24h0M577 24h0M598 24h0M612 24h0M696 24h0M59 31h0M66 31h0M73 31h0M80 31h0M87 31h0M94 31h0M101 31h0M108 31h0M115 31h0M122 31h0M129 31h0M136 31h0M143 31h0M150 31h0M157 31h0M164 31h0M171 31h0M178 31h0M185 31h0M192 31h0M199 31h0M206 31h0M213 31h0M220 31h0M227 31h0M234 31h0M241 31h0M248 31h0M262 31h0M276 31h0M304 31h0M311 31h0M318 31h0M360 31h0M367 31h0M374 31h0M381 31h0M444 31h0M451 31h0M528 31h0M535 31h0M542 31h0M549 31h0M556 31h0M570 31h0M577 31h0M584 31h0M591 31h0M598 31h0M605 31h0M612 31h0M619 31h0M626 31h0M633 31h0M640 31h0M647 31h0M654 31h0M661 31h0M668 31h0M675 31h0M682 31h0M689 31h0M696 31h0M703 31h0M710 31h0M717 31h0M724 31h0M731 31h0M738 31h0M745 31h0M752 31h0M759 31h0M766 31h0M773 31h0M780 31h0M787 31h0M794 31h0M801 31h0M808 31h0M815 31h0M822 31h0M829 31h0M836 31h0M843 31h0M850 31h0M857 31h0M864 31h0M871 31h0M878 31h0M885 31h0M892 31h0M899 31h0M906 31h0M913 31h0M920 31h0M927 31h0M934 31h0M941 31h0M948 31h0M955 31h0M962 31h0M969 31h0M976 31h0M983 31h0M990 31h0M45 38h0M52 38h0M59 38h0M66 38h0M73 38h0M80 38h0M87 38h0M94 38h0M101 38h0M108 38h0M115 38h0M122 38h0M129 38h0M136 38h0M143 38h0M150 38h0M157 38h0M164 38h0M171 38h0M178 38h0M185 38h0M192 38h0M199 38h0M206 38h0M213 38h0M220 38h0M227 38h0M234 38h0M290 38h0M297 38h0M367 38h0M374 38h0M381 38h0M514 38h0M521 38h0M528 38h0M535 38h0M542 38h0M563 38h0M570 38h0M577 38h0M584 38h0M591 38h0M598 38h0M605 38h0M612 38h0M619 38h0M626 38h0M633 38h0M640 38h0M647 38h0M654 38h0M661 38h0M668 38h0M675 38h0M682 38h0M689 38h0M696 38h0M703 38h0M710 38h0M717 38h0M724 38h0M731 38h0M738 38h0M745 38h0M752 38h0M759 38h0M766 38h0M773 38h0M780 38h0M787 38h0M794 38h0M801 38h0M808 38h0M815 38h0M822 38h0M829 38h0M836 38h0M843 38h0M850 38h0M857 38h0M864 38h0M871 38h0M878 38h0M885 38h0M892 38h0M899 38h0M906 38h0M913 38h0M920 38h0M927 38h0M934 38h0M948 38h0M962 38h0M969 38h0M976 38h0M52 45h0M66 45h0M73 45h0M129 45h0M136 45h0M143 45h0M150 45h0M157 45h0M164 45h0M171 45h0M178 45h0M185 45h0M192 45h0M199 45h0M206 45h0M213 45h0M220 45h0M227 45h0M234 45h0M283 45h0M290 45h0M297 45h0M304 45h0M318 45h0M325 45h0M521 45h0M535 45h0M542 45h0M563 45h0M570 45h0M577 45h0M584 45h0M591 45h0M598 45h0M605 45h0M612 45h0M619 45h0M626 45h0M633 45h0M640 45h0M647 45h0M654 45h0M661 45h0M668 45h0M675 45h0M682 45h0M689 45h0M696 45h0M703 45h0M710 45h0M717 45h0M724 45h0M731 45h0M738 45h0M745 45h0M752 45h0M759 45h0M766 45h0M773 45h0M780 45h0M787 45h0M794 45h0M801 45h0M808 45h0M815 45h0M822 45h0M829 45h0M836 45h0M843 45h0M850 45h0M857 45h0M864 45h0M871 45h0M878 45h0M885 45h0M892 45h0M948 45h0M955 45h0M59 52h0M129 52h0M136 52h0M143 52h0M150 52h0M157 52h0M164 52h0M171 52h0M178 52h0M185 52h0M192 52h0M199 52h0M206 52h0M213 52h0M220 52h0M227 52h0M234 52h0M241 52h0M248 52h0M255 52h0M290 52h0M297 52h0M304 52h0M311 52h0M318 52h0M325 52h0M486 52h0M528 52h0M542 52h0M563 52h0M570 52h0M577 52h0M584 52h0M591 52h0M598 52h0M605 52h0M612 52h0M619 52h0M626 52h0M633 52h0M640 52h0M647 52h0M654 52h0M661 52h0M668 52h0M675 52h0M682 52h0M689 52h0M696 52h0M703 52h0M710 52h0M717 52h0M724 52h0M731 52h0M738 52h0M745 52h0M752 52h0M759 52h0M766 52h0M773 52h0M780 52h0M787 52h0M794 52h0M801 52h0M808 52h0M815 52h0M822 52h0M829 52h0M836 52h0M843 52h0M850 52h0M857 52h0M864 52h0M871 52h0M878 52h0M934 52h0M941 52h0M948 52h0M143 59h0M150 59h0M157 59h0M164 59h0M171 59h0M178 59h0M185 59h0M192 59h0M199 59h0M206 59h0M213 59h0M220 59h0M227 59h0M234 59h0M241 59h0M248 59h0M255 59h0M262 59h0M269 59h0M283 59h0M290 59h0M297 59h0M304 59h0M311 59h0M318 59h0M325 59h0M332 59h0M339 59h0M479 59h0M493 59h0M528 59h0M535 59h0M542 59h0M549 59h0M556 59h0M563 59h0M570 59h0M577 59h0M584 59h0M591 59h0M598 59h0M605 59h0M612 59h0M619 59h0M626 59h0M633 59h0M640 59h0M647 59h0M654 59h0M661 59h0M668 59h0M675 59h0M682 59h0M689 59h0M696 59h0M703 59h0M710 59h0M717 59h0M724 59h0M731 59h0M738 59h0M745 59h0M752 59h0M759 59h0M766 59h0M773 59h0M780 59h0M787 59h0M794 59h0M801 59h0M808 59h0M815 59h0M822 59h0M829 59h0M836 59h0M843 59h0M850 59h0M857 59h0M864 59h0M871 59h0M878 59h0M934 59h0M941 59h0M150 66h0M157 66h0M164 66h0M171 66h0M178 66h0M185 66h0M192 66h0M199 66h0M206 66h0M213 66h0M220 66h0M227 66h0M234 66h0M241 66h0M248 66h0M255 66h0M262 66h0M269 66h0M283 66h0M290 66h0M297 66h0M304 66h0M311 66h0M318 66h0M325 66h0M332 66h0M493 66h0M500 66h0M514 66h0M521 66h0M528 66h0M535 66h0M542 66h0M549 66h0M556 66h0M563 66h0M570 66h0M577 66h0M584 66h0M591 66h0M598 66h0M605 66h0M612 66h0M619 66h0M626 66h0M633 66h0M640 66h0M647 66h0M654 66h0M661 66h0M668 66h0M675 66h0M682 66h0M689 66h0M696 66h0M703 66h0M710 66h0M717 66h0M724 66h0M731 66h0M738 66h0M745 66h0M752 66h0M759 66h0M766 66h0M773 66h0M780 66h0M787 66h0M794 66h0M801 66h0M808 66h0M815 66h0M822 66h0M829 66h0M836 66h0M843 66h0M850 66h0M857 66h0M864 66h0M871 66h0M878 66h0M885 66h0M164 73h0M171 73h0M178 73h0M185 73h0M192 73h0M199 73h0M206 73h0M213 73h0M220 73h0M227 73h0M234 73h0M241 73h0M248 73h0M255 73h0M262 73h0M269 73h0M276 73h0M283 73h0M290 73h0M297 73h0M304 73h0M318 73h0M339 73h0M346 73h0M528 73h0M535 73h0M542 73h0M549 73h0M556 73h0M563 73h0M570 73h0M577 73h0M584 73h0M591 73h0M598 73h0M605 73h0M612 73h0M619 73h0M626 73h0M633 73h0M640 73h0M647 73h0M654 73h0M661 73h0M668 73h0M675 73h0M682 73h0M689 73h0M696 73h0M703 73h0M710 73h0M717 73h0M724 73h0M731 73h0M738 73h0M745 73h0M752 73h0M759 73h0M766 73h0M773 73h0M780 73h0M787 73h0M794 73h0M801 73h0M808 73h0M815 73h0M822 73h0M829 73h0M836 73h0M843 73h0M850 73h0M857 73h0M864 73h0M871 73h0M878 73h0M885 73h0M157 80h0M164 80h0M171 80h0M178 80h0M185 80h0M192 80h0M199 80h0M206 80h0M213 80h0M220 80h0M227 80h0M234 80h0M241 80h0M248 80h0M255 80h0M262 80h0M269 80h0M276 80h0M283 80h0M290 80h0M297 80h0M304 80h0M311 80h0M318 80h0M325 80h0M332 80h0M521 80h0M528 80h0M535 80h0M542 80h0M549 80h0M556 80h0M563 80h0M570 80h0M577 80h0M584 80h0M591 80h0M612 80h0M619 80h0M626 80h0M633 80h0M654 80h0M661 80h0M668 80h0M675 80h0M682 80h0M689 80h0M696 80h0M703 80h0M710 80h0M717 80h0M724 80h0M731 80h0M738 80h0M745 80h0M752 80h0M759 80h0M766 80h0M773 80h0M780 80h0M787 80h0M794 80h0M801 80h0M808 80h0M815 80h0M822 80h0M829 80h0M836 80h0M843 80h0M850 80h0M857 80h0M864 80h0M871 80h0M878 80h0M157 87h0M164 87h0M171 87h0M178 87h0M185 87h0M192 87h0M199 87h0M206 87h0M213 87h0M220 87h0M227 87h0M234 87h0M241 87h0M248 87h0M255 87h0M262 87h0M269 87h0M276 87h0M283 87h0M290 87h0M297 87h0M304 87h0M318 87h0M479 87h0M535 87h0M549 87h0M556 87h0M563 87h0M570 87h0M577 87h0M612 87h0M619 87h0M626 87h0M647 87h0M654 87h0M661 87h0M668 87h0M675 87h0M682 87h0M689 87h0M696 87h0M703 87h0M710 87h0M717 87h0M724 87h0M731 87h0M738 87h0M745 87h0M752 87h0M759 87h0M766 87h0M773 87h0M780 87h0M787 87h0M794 87h0M801 87h0M808 87h0M815 87h0M822 87h0M829 87h0M836 87h0M843 87h0M850 87h0M857 87h0M864 87h0M871 87h0M899 87h0M157 94h0M164 94h0M171 94h0M178 94h0M185 94h0M192 94h0M199 94h0M206 94h0M213 94h0M220 94h0M227 94h0M234 94h0M241 94h0M248 94h0M255 94h0M262 94h0M269 94h0M276 94h0M283 94h0M290 94h0M479 94h0M486 94h0M493 94h0M500 94h0M542 94h0M556 94h0M563 94h0M570 94h0M577 94h0M584 94h0M591 94h0M598 94h0M619 94h0M626 94h0M633 94h0M654 94h0M661 94h0M668 94h0M675 94h0M682 94h0M689 94h0M696 94h0M703 94h0M710 94h0M717 94h0M724 94h0M731 94h0M738 94h0M745 94h0M752 94h0M759 94h0M766 94h0M773 94h0M780 94h0M787 94h0M794 94h0M801 94h0M808 94h0M815 94h0M822 94h0M829 94h0M836 94h0M843 94h0M850 94h0M857 94h0M164 101h0M171 101h0M178 101h0M185 101h0M192 101h0M199 101h0M206 101h0M213 101h0M220 101h0M227 101h0M234 101h0M241 101h0M248 101h0M255 101h0M262 101h0M269 101h0M276 101h0M283 101h0M290 101h0M479 101h0M486 101h0M493 101h0M500 101h0M563 101h0M577 101h0M584 101h0M591 101h0M598 101h0M605 101h0M612 101h0M619 101h0M626 101h0M633 101h0M654 101h0M661 101h0M668 101h0M675 101h0M682 101h0M689 101h0M696 101h0M703 101h0M710 101h0M717 101h0M724 101h0M731 101h0M738 101h0M745 101h0M752 101h0M759 101h0M766 101h0M773 101h0M780 101h0M787 101h0M794 101h0M801 101h0M808 101h0M815 101h0M822 101h0M850 101h0M892 101h0M164 108h0M171 108h0M178 108h0M185 108h0M192 108h0M199 108h0M206 108h0M213 108h0M220 108h0M227 108h0M234 108h0M241 108h0M248 108h0M255 108h0M262 108h0M269 108h0M276 108h0M283 108h0M507 108h0M514 108h0M521 108h0M528 108h0M591 108h0M605 108h0M612 108h0M619 108h0M626 108h0M633 108h0M640 108h0M647 108h0M654 108h0M661 108h0M668 108h0M675 108h0M682 108h0M689 108h0M696 108h0M703 108h0M710 108h0M717 108h0M724 108h0M731 108h0M738 108h0M745 108h0M752 108h0M759 108h0M766 108h0M773 108h0M780 108h0M787 108h0M794 108h0M801 108h0M808 108h0M815 108h0M822 108h0M829 108h0M857 108h0M885 108h0M178 115h0M185 115h0M192 115h0M199 115h0M206 115h0M213 115h0M220 115h0M227 115h0M234 115h0M241 115h0M248 115h0M255 115h0M262 115h0M269 115h0M276 115h0M479 115h0M486 115h0M493 115h0M500 115h0M507 115h0M514 115h0M521 115h0M528 115h0M605 115h0M612 115h0M619 115h0M626 115h0M633 115h0M640 115h0M647 115h0M654 115h0M661 115h0M668 115h0M675 115h0M682 115h0M689 115h0M696 115h0M703 115h0M710 115h0M717 115h0M724 115h0M731 115h0M738 115h0M745 115h0M752 115h0M759 115h0M766 115h0M773 115h0M780 115h0M787 115h0M794 115h0M801 115h0M808 115h0M815 115h0M822 115h0M829 115h0M864 115h0M871 115h0M178 122h0M192 122h0M199 122h0M206 122h0M213 122h0M220 122h0M227 122h0M234 122h0M241 122h0M248 122h0M255 122h0M262 122h0M269 122h0M479 122h0M486 122h0M493 122h0M500 122h0M507 122h0M514 122h0M521 122h0M528 122h0M535 122h0M542 122h0M556 122h0M563 122h0M570 122h0M577 122h0M584 122h0M591 122h0M598 122h0M605 122h0M612 122h0M619 122h0M626 122h0M633 122h0M640 122h0M647 122h0M654 122h0M661 122h0M668 122h0M675 122h0M682 122h0M689 122h0M696 122h0M703 122h0M710 122h0M717 122h0M724 122h0M731 122h0M738 122h0M745 122h0M752 122h0M759 122h0M766 122h0M773 122h0M780 122h0M787 122h0M794 122h0M801 122h0M808 122h0M815 122h0M822 122h0M829 122h0M836 122h0M185 129h0M192 129h0M199 129h0M206 129h0M213 129h0M220 129h0M227 129h0M276 129h0M472 129h0M479 129h0M486 129h0M493 129h0M500 129h0M507 129h0M514 129h0M521 129h0M528 129h0M535 129h0M542 129h0M549 129h0M556 129h0M563 129h0M570 129h0M577 129h0M584 129h0M591 129h0M598 129h0M605 129h0M612 129h0M619 129h0M626 129h0M633 129h0M647 129h0M654 129h0M661 129h0M668 129h0M675 129h0M682 129h0M689 129h0M696 129h0M703 129h0M710 129h0M717 129h0M724 129h0M731 129h0M738 129h0M745 129h0M752 129h0M759 129h0M766 129h0M773 129h0M780 129h0M787 129h0M794 129h0M801 129h0M808 129h0M815 129h0M822 129h0M829 129h0M836 129h0M199 136h0M206 136h0M213 136h0M220 136h0M227 136h0M276 136h0M465 136h0M472 136h0M479 136h0M486 136h0M493 136h0M500 136h0M507 136h0M514 136h0M521 136h0M528 136h0M535 136h0M542 136h0M549 136h0M556 136h0M563 136h0M570 136h0M577 136h0M584 136h0M591 136h0M605 136h0M612 136h0M619 136h0M626 136h0M633 136h0M661 136h0M668 136h0M675 136h0M682 136h0M689 136h0M696 136h0M703 136h0M710 136h0M717 136h0M724 136h0M731 136h0M738 136h0M745 136h0M752 136h0M759 136h0M766 136h0M773 136h0M780 136h0M787 136h0M794 136h0M801 136h0M808 136h0M815 136h0M822 136h0M829 136h0M206 143h0M213 143h0M220 143h0M227 143h0M458 143h0M465 143h0M472 143h0M479 143h0M486 143h0M493 143h0M500 143h0M507 143h0M514 143h0M521 143h0M528 143h0M535 143h0M542 143h0M549 143h0M556 143h0M563 143h0M570 143h0M577 143h0M584 143h0M591 143h0M598 143h0M612 143h0M619 143h0M626 143h0M633 143h0M640 143h0M647 143h0M654 143h0M661 143h0M696 143h0M703 143h0M710 143h0M717 143h0M724 143h0M731 143h0M738 143h0M745 143h0M752 143h0M759 143h0M766 143h0M773 143h0M780 143h0M787 143h0M794 143h0M801 143h0M808 143h0M815 143h0M822 143h0M836 143h0M213 150h0M220 150h0M227 150h0M255 150h0M283 150h0M458 150h0M465 150h0M472 150h0M479 150h0M486 150h0M493 150h0M500 150h0M507 150h0M514 150h0M521 150h0M528 150h0M535 150h0M542 150h0M549 150h0M556 150h0M563 150h0M570 150h0M577 150h0M584 150h0M591 150h0M598 150h0M612 150h0M619 150h0M626 150h0M633 150h0M640 150h0M647 150h0M654 150h0M661 150h0M696 150h0M703 150h0M710 150h0M717 150h0M724 150h0M731 150h0M738 150h0M759 150h0M766 150h0M773 150h0M780 150h0M787 150h0M794 150h0M213 157h0M220 157h0M227 157h0M234 157h0M248 157h0M304 157h0M458 157h0M465 157h0M472 157h0M479 157h0M486 157h0M493 157h0M500 157h0M507 157h0M514 157h0M521 157h0M528 157h0M535 157h0M542 157h0M549 157h0M556 157h0M563 157h0M570 157h0M577 157h0M584 157h0M591 157h0M598 157h0M605 157h0M619 157h0M626 157h0M633 157h0M640 157h0M647 157h0M654 157h0M703 157h0M710 157h0M717 157h0M724 157h0M731 157h0M766 157h0M773 157h0M780 157h0M787 157h0M794 157h0M836 157h0M234 164h0M241 164h0M248 164h0M458 164h0M465 164h0M472 164h0M479 164h0M486 164h0M493 164h0M500 164h0M507 164h0M514 164h0M521 164h0M528 164h0M535 164h0M542 164h0M549 164h0M556 164h0M563 164h0M570 164h0M577 164h0M584 164h0M591 164h0M598 164h0M605 164h0M619 164h0M626 164h0M633 164h0M640 164h0M710 164h0M717 164h0M724 164h0M773 164h0M780 164h0M787 164h0M794 164h0M836 164h0M255 171h0M262 171h0M458 171h0M465 171h0M472 171h0M479 171h0M486 171h0M493 171h0M500 171h0M507 171h0M514 171h0M521 171h0M528 171h0M535 171h0M542 171h0M549 171h0M556 171h0M563 171h0M570 171h0M577 171h0M584 171h0M591 171h0M598 171h0M605 171h0M612 171h0M626 171h0M710 171h0M717 171h0M787 171h0M794 171h0M801 171h0M836 171h0M843 171h0M262 178h0M297 178h0M304 178h0M465 178h0M472 178h0M479 178h0M486 178h0M493 178h0M500 178h0M507 178h0M514 178h0M521 178h0M528 178h0M535 178h0M542 178h0M549 178h0M556 178h0M563 178h0M570 178h0M577 178h0M584 178h0M591 178h0M598 178h0M605 178h0M612 178h0M619 178h0M633 178h0M640 178h0M717 178h0M787 178h0M794 178h0M276 185h0M290 185h0M297 185h0M304 185h0M311 185h0M318 185h0M325 185h0M332 185h0M465 185h0M472 185h0M479 185h0M486 185h0M493 185h0M500 185h0M507 185h0M514 185h0M521 185h0M528 185h0M535 185h0M542 185h0M549 185h0M556 185h0M563 185h0M570 185h0M577 185h0M584 185h0M591 185h0M598 185h0M605 185h0M612 185h0M619 185h0M626 185h0M633 185h0M724 185h0M773 185h0M843 185h0M850 185h0M290 192h0M297 192h0M304 192h0M311 192h0M318 192h0M325 192h0M332 192h0M339 192h0M346 192h0M479 192h0M486 192h0M493 192h0M500 192h0M514 192h0M521 192h0M528 192h0M535 192h0M542 192h0M549 192h0M556 192h0M563 192h0M570 192h0M577 192h0M584 192h0M591 192h0M598 192h0M605 192h0M612 192h0M619 192h0M626 192h0M633 192h0M780 192h0M290 199h0M297 199h0M304 199h0M311 199h0M318 199h0M325 199h0M332 199h0M339 199h0M346 199h0M353 199h0M528 199h0M535 199h0M542 199h0M549 199h0M556 199h0M563 199h0M570 199h0M577 199h0M584 199h0M591 199h0M598 199h0M605 199h0M612 199h0M619 199h0M626 199h0M773 199h0M787 199h0M815 199h0M822 199h0M283 206h0M290 206h0M297 206h0M304 206h0M311 206h0M318 206h0M325 206h0M332 206h0M339 206h0M346 206h0M353 206h0M360 206h0M528 206h0M535 206h0M542 206h0M549 206h0M556 206h0M563 206h0M570 206h0M577 206h0M584 206h0M591 206h0M598 206h0M605 206h0M612 206h0M619 206h0M780 206h0M808 206h0M815 206h0M822 206h0M829 206h0M836 206h0M843 206h0M276 213h0M283 213h0M290 213h0M297 213h0M304 213h0M311 213h0M318 213h0M325 213h0M332 213h0M339 213h0M346 213h0M353 213h0M360 213h0M367 213h0M374 213h0M528 213h0M535 213h0M542 213h0M549 213h0M556 213h0M563 213h0M570 213h0M577 213h0M584 213h0M591 213h0M598 213h0M605 213h0M612 213h0M780 213h0M787 213h0M794 213h0M808 213h0M815 213h0M822 213h0M836 213h0M871 213h0M878 213h0M276 220h0M283 220h0M290 220h0M297 220h0M304 220h0M311 220h0M318 220h0M325 220h0M332 220h0M339 220h0M346 220h0M353 220h0M360 220h0M367 220h0M374 220h0M381 220h0M388 220h0M535 220h0M542 220h0M549 220h0M556 220h0M563 220h0M570 220h0M577 220h0M584 220h0M591 220h0M598 220h0M605 220h0M787 220h0M878 220h0M885 220h0M892 220h0M899 220h0M283 227h0M290 227h0M297 227h0M304 227h0M311 227h0M318 227h0M325 227h0M332 227h0M339 227h0M346 227h0M353 227h0M360 227h0M367 227h0M374 227h0M381 227h0M388 227h0M395 227h0M402 227h0M542 227h0M549 227h0M556 227h0M563 227h0M570 227h0M577 227h0M584 227h0M591 227h0M598 227h0M605 227h0M794 227h0M801 227h0M808 227h0M892 227h0M899 227h0M906 227h0M283 234h0M290 234h0M297 234h0M304 234h0M311 234h0M318 234h0M325 234h0M332 234h0M339 234h0M346 234h0M353 234h0M360 234h0M367 234h0M374 234h0M381 234h0M388 234h0M395 234h0M542 234h0M549 234h0M556 234h0M563 234h0M570 234h0M577 234h0M584 234h0M591 234h0M598 234h0M605 234h0M913 234h0M290 241h0M297 241h0M304 241h0M311 241h0M318 241h0M325 241h0M332 241h0M339 241h0M346 241h0M353 241h0M360 241h0M367 241h0M374 241h0M381 241h0M388 241h0M395 241h0M542 241h0M549 241h0M556 241h0M563 241h0M570 241h0M577 241h0M584 241h0M591 241h0M598 241h0M605 241h0M612 241h0M864 241h0M290 248h0M297 248h0M304 248h0M311 248h0M318 248h0M325 248h0M332 248h0M339 248h0M346 248h0M353 248h0M360 248h0M367 248h0M374 248h0M381 248h0M388 248h0M535 248h0M542 248h0M549 248h0M556 248h0M563 248h0M570 248h0M577 248h0M584 248h0M591 248h0M598 248h0M605 248h0M612 248h0M633 248h0M864 248h0M871 248h0M899 248h0M304 255h0M311 255h0M318 255h0M325 255h0M332 255h0M339 255h0M346 255h0M353 255h0M360 255h0M367 255h0M374 255h0M381 255h0M388 255h0M535 255h0M542 255h0M549 255h0M556 255h0M563 255h0M570 255h0M577 255h0M584 255h0M591 255h0M598 255h0M605 255h0M626 255h0M633 255h0M850 255h0M857 255h0M864 255h0M871 255h0M878 255h0M899 255h0M997 255h0M311 262h0M318 262h0M325 262h0M332 262h0M339 262h0M346 262h0M353 262h0M360 262h0M367 262h0M374 262h0M381 262h0M388 262h0M542 262h0M549 262h0M556 262h0M563 262h0M570 262h0M577 262h0M584 262h0M591 262h0M598 262h0M626 262h0M633 262h0M843 262h0M850 262h0M857 262h0M864 262h0M871 262h0M878 262h0M885 262h0M892 262h0M899 262h0M906 262h0M311 269h0M318 269h0M325 269h0M332 269h0M339 269h0M346 269h0M353 269h0M360 269h0M367 269h0M374 269h0M381 269h0M542 269h0M549 269h0M556 269h0M563 269h0M570 269h0M577 269h0M584 269h0M591 269h0M598 269h0M626 269h0M633 269h0M822 269h0M829 269h0M836 269h0M843 269h0M850 269h0M857 269h0M864 269h0M871 269h0M878 269h0M885 269h0M892 269h0M899 269h0M906 269h0M913 269h0M962 269h0M311 276h0M318 276h0M325 276h0M332 276h0M339 276h0M346 276h0M353 276h0M360 276h0M367 276h0M542 276h0M549 276h0M556 276h0M563 276h0M570 276h0M577 276h0M584 276h0M591 276h0M598 276h0M626 276h0M822 276h0M829 276h0M836 276h0M843 276h0M850 276h0M857 276h0M864 276h0M871 276h0M878 276h0M885 276h0M892 276h0M899 276h0M906 276h0M913 276h0M920 276h0M304 283h0M311 283h0M318 283h0M325 283h0M332 283h0M339 283h0M346 283h0M353 283h0M360 283h0M549 283h0M556 283h0M563 283h0M570 283h0M577 283h0M584 283h0M591 283h0M822 283h0M829 283h0M836 283h0M843 283h0M850 283h0M857 283h0M864 283h0M871 283h0M878 283h0M885 283h0M892 283h0M899 283h0M906 283h0M913 283h0M920 283h0M304 290h0M311 290h0M318 290h0M325 290h0M332 290h0M339 290h0M346 290h0M353 290h0M360 290h0M549 290h0M556 290h0M563 290h0M570 290h0M577 290h0M584 290h0M822 290h0M829 290h0M836 290h0M843 290h0M850 290h0M857 290h0M864 290h0M871 290h0M878 290h0M885 290h0M892 290h0M899 290h0M906 290h0M913 290h0M920 290h0M304 297h0M311 297h0M318 297h0M325 297h0M332 297h0M339 297h0M346 297h0M353 297h0M556 297h0M563 297h0M570 297h0M577 297h0M822 297h0M829 297h0M836 297h0M843 297h0M850 297h0M857 297h0M871 297h0M878 297h0M885 297h0M892 297h0M899 297h0M906 297h0M913 297h0M920 297h0M304 304h0M311 304h0M318 304h0M325 304h0M332 304h0M346 304h0M556 304h0M822 304h0M829 304h0M878 304h0M885 304h0M892 304h0M899 304h0M906 304h0M913 304h0M297 311h0M304 311h0M311 311h0M318 311h0M325 311h0M332 311h0M339 311h0M892 311h0M899 311h0M906 311h0M913 311h0M297 318h0M304 318h0M311 318h0M318 318h0M325 318h0M983 318h0M990 318h0M304 325h0M311 325h0M318 325h0M906 325h0M983 325h0M297 332h0M304 332h0M311 332h0M318 332h0M969 332h0M297 339h0M304 339h0M311 339h0M297 346h0M304 346h0M311 346h0M304 353h0M332 353h0M304 360h0M311 360h0"/><path class="map-fr" d="M500 73h0M507 73h0M514 73h0M521 73h0M500 80h0M507 80h0M514 80h0M500 87h0M507 87h0M514 87h0"/><g class="map-routes"><path class="route" style="--k:0" pathLength="1" d="M506.5 72.6Q400.5 24.2 294.4 95.3"/><circle class="dest" style="--k:0" cx="294.4" cy="95.3" r="4"/><path class="route" style="--k:1" pathLength="1" d="M506.5 72.6Q339.1 -1.3 171.7 113.8"/><circle class="dest" style="--k:1" cx="171.7" cy="113.8" r="4"/><path class="route" style="--k:2" pathLength="1" d="M506.5 72.6Q438.5 105.2 370.6 273.8"/><circle class="dest" style="--k:2" cx="370.6" cy="273.8" r="4"/><path class="route" style="--k:3" pathLength="1" d="M506.5 72.6Q555.5 35.1 604.4 53.5"/><circle class="dest" style="--k:3" cx="604.4" cy="53.5" r="4"/><path class="route" style="--k:4" pathLength="1" d="M506.5 72.6Q580.1 60.4 653.6 138.4"/><circle class="dest" style="--k:4" cx="653.6" cy="138.4" r="4"/><path class="route" style="--k:5" pathLength="1" d="M506.5 72.6Q604.5 54.5 702.4 155.4"/><circle class="dest" style="--k:5" cx="702.4" cy="155.4" r="4"/><path class="route" style="--k:6" pathLength="1" d="M506.5 72.6Q647.4 51.5 788.3 204.6"/><circle class="dest" style="--k:6" cx="788.3" cy="204.6" r="4"/><path class="route" style="--k:7" pathLength="1" d="M506.5 72.6Q697.3 -16.4 888.1 109.2"/><circle class="dest" style="--k:7" cx="888.1" cy="109.2" r="4"/><path class="route" style="--k:8" pathLength="1" d="M506.5 72.6Q713.3 55.1 920.0 302.5"/><circle class="dest" style="--k:8" cx="920.0" cy="302.5" r="4"/><path class="route" style="--k:9" pathLength="1" d="M506.5 72.6Q542.2 115.2 577.9 281.2"/><circle class="dest" style="--k:9" cx="577.9" cy="281.2" r="4"/></g><g class="map-paris" transform="translate(506.5 72.6)"><circle class="pulse" r="7"/><circle class="pulse pulse--2" r="7"/><circle class="pin" r="6"/><text x="12" y="-14">Paris</text></g></svg></figure>
@@ -1125,7 +1148,7 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
     </div>
     <p class="proof__desc fade-up">Four Seasons Hotel George V Paris、Aman Resorts、豪華客船 Queen Victoria など、世界のラグジュアリー空間でも公式エステティックブランドとして採用されています。</p>
     <!-- ISO：ペルソナ1（VAR_p4）の内容をそのまま流用 -->
-    <h3 class="certs-title fade-up"><span class="en">Certified quality</span>安全な品質を証明する<br class="sp-only"><em>ISO</em>を取得</h3>
+    <h3 class="certs-title fade-up"><span class="en">Certified quality</span>安全な品質を証明する<br><em>ISO</em>を取得</h3>
     <div class="certs">
       <!-- ISO は製造・企業体制の認証（機器単体の認証ではない）ため、文言は既存のまま、見せ方だけ強調 -->
       <div class="cert fade-up"><div class="cert__seal" aria-hidden="true"><svg viewBox="0 0 200 200"><defs><path id="certRing1" d="M100 100m-80 0a80 80 0 1 1 160 0a80 80 0 1 1-160 0"/></defs><circle class="ring" cx="100" cy="100" r="97"/><circle class="ring ring--in" cx="100" cy="100" r="64"/><g class="rot"><text><textPath href="#certRing1" textLength="500">INTERNATIONAL STANDARD · CERTIFIED · GUINOT PARIS ·</textPath></text></g></svg></div><b><small>ISO</small> 22716</b><span>製薬基準の精度で製造する品質認証</span></div>
@@ -1301,6 +1324,21 @@ document.addEventListener('DOMContentLoaded', function () {
   var progress = document.querySelector('.progress');
   var header = document.querySelector('.header');
   var wide = window.matchMedia('(min-width: 900px)');
+  var heroPortrait = document.querySelector('.hero__video--portrait');
+  var heroLandscape = document.querySelector('.hero__video--landscape');
+  function syncHeroVideo() {
+    if (!heroPortrait || !heroLandscape) return;
+    var useWide = wide.matches;
+    var on = useWide ? heroLandscape : heroPortrait;
+    var off = useWide ? heroPortrait : heroLandscape;
+    off.pause();
+    if (on.readyState === 0) on.load();
+    var play = on.play();
+    if (play && play.catch) play.catch(function () {});
+  }
+  if (wide.addEventListener) wide.addEventListener('change', syncHeroVideo);
+  else if (wide.addListener) wide.addListener(syncHeroVideo);
+  syncHeroVideo();
   var marks = reduce ? [] : Array.prototype.slice.call(document.querySelectorAll('.wm[data-px]'));
   var band = document.querySelector('.band img');
   var floatingCta = document.querySelector('.floating-cta');

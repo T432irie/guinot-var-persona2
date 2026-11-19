@@ -19,7 +19,7 @@ git checkout persona2-rebuild
 
 | 場所 | ファイル | 内容 |
 | --- | --- | --- |
-| ヒーロー | `assets/var_p5/hero_treatment_ai.jpg`（1200×1600） | 施術を受けるお客様。webp の source は削除済み。alt「VARの施術を受けるお客様」。直上の差し替えコメントも残す |
+| ヒーロー | `videos/hero-portrait.mp4`（スマホ） / `videos/hero-landscape.mp4`（PC・900px〜） | 添付のイメージ動画。ポスターは `hero-*-poster.jpg`。旧仮画像 `assets/var_p5/hero_treatment_ai.jpg` は残置 |
 | 悩み 01 `#owner` | `worry_refuse_ai.jpg` | 腕で×を作り、不満そうな表情のお客様 |
 | 悩み 02 | `worry_noreturn2_ai.jpg` | 帰っていくお客様を見送り、考え込むオーナー |
 | 悩み 03 | `worry_staff2_ai.jpg` | スタッフの施術を横で見守るオーナー |
