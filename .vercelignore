@@ -1,0 +1,9 @@
+.git
+.gitignore
+.DS_Store
+.claude
+.cursor
+*.md
+docs
+.vercel
+.env*
