@@ -99,25 +99,33 @@ h1, h2, h3, p, li, b { word-break: auto-phrase; line-break: strict; }
 .header__cta:hover { background: var(--accent-h); }
 .header__cta .arrow { width: 18px; }
 
-/* ---------- 1. hero : full colour field + type over photo ---------- */
-.hero { position: relative; overflow: hidden; background: var(--red-field-hero); color: var(--ivory); }
-.hero__logo { position: absolute; z-index: 5; top: 18px; left: var(--gut); }
-.hero__logo img { height: 28px; width: auto; }
-/* crop of MV_3 (681x1024): x 300-681 only, so none of the poster's baked-in text shows */
-.hero__visual { position: relative; z-index: 1; display: block; overflow: hidden; aspect-ratio: 381 / 350; }
-.hero__visual img { position: absolute; left: -78.74%; top: 0; margin-top: -22.3%; width: 178.74%; max-width: none; height: auto; transform: scale(1.08); opacity: 0; transition: transform 3s var(--ease), opacity 1.6s ease; }
-.is-loaded .hero__visual img { transform: none; opacity: 1; animation: kenburns 22s ease-in-out 3s infinite alternate; }
+/* ---------- 1. hero : 画面全面の動画FV（SP=縦長 / PC=横長） ---------- */
+/* min-height は古いブラウザ向けに vh → dvh → svh の順で上書き */
+.hero { position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-start; min-height: 100vh; min-height: 100dvh; min-height: 100svh; padding: 0; box-sizing: border-box; background: #7e0013; color: var(--ivory); writing-mode: horizontal-tb; }
+/* SP: ロゴをフロー配置にして見出しとの被りを防ぐ */
+.hero__logo { position: relative; z-index: 6; flex: 0 0 auto; align-self: flex-start; margin: 16px 0 0 var(--gut); }
+.hero__logo img { height: 28px; width: auto; filter: drop-shadow(0 2px 10px rgba(137,0,21,.45)); }
+/* 動画未再生・低電力モードでもポスターが見えるよう背景にも置く */
+.hero__visual { position: absolute; inset: 0; z-index: 0; display: block; overflow: hidden; aspect-ratio: auto; margin: 0; background: #7e0013 url(videos/hero-portrait-poster.jpg) center / cover no-repeat; }
+.hero__visual img { display: none; }
+.hero__visual .hero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center center; opacity: 0; transition: opacity .5s ease; }
+.is-loaded .hero__visual .hero__video { opacity: 1; }
+.hero__video { display: block; }
+.hero__video--landscape { display: none; }
 @keyframes kenburns { from { scale: 1; } to { scale: 1.07; } }
-.hero__visual::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(153,0,23,0) 45%, rgba(153,0,23,.92) 92%, var(--wine) 100%); }
-.hero .wm { top: 56px; font-size: min(26vw, 12rem); color: rgba(255,252,248,.28); z-index: 3; }
-.hero__copy { position: relative; z-index: 4; margin-top: -96px; padding: 0 var(--gut) 36px; }
-.hero__kicker { display: block; font-size: 1rem; color: var(--gold-l); letter-spacing: 0.12em; }
-.hero__title { margin-top: 6px; font-family: var(--mincho); font-weight: 500; font-size: clamp(1.75rem, 7.6vw, 2rem); line-height: 1.5; letter-spacing: 0.12em; }
+.hero__visual::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(90deg, rgba(125,0,19,.9) 0%, rgba(137,0,21,.62) 36%, rgba(153,0,23,.32) 62%, rgba(125,0,19,.48) 100%), linear-gradient(180deg, rgba(137,0,21,.62) 0%, rgba(153,0,23,.28) 34%, rgba(113,0,17,.88) 100%); }
+.hero .wm { display: none; }
+/* 幅・横書きを明示（一部環境で縦に1文字折りになるのを防ぐ） */
+.hero__copy { position: relative; z-index: 4; flex: 0 0 auto; align-self: stretch; width: 100%; max-width: none; margin-top: auto; padding: 20px var(--gut) 36px; box-sizing: border-box; writing-mode: horizontal-tb; text-orientation: mixed; }
+.hero__copy > * { max-width: 36em; writing-mode: horizontal-tb; word-break: normal; overflow-wrap: break-word; }
+.hero__kicker { display: none; }
+.hero__title { margin-top: 0; font-family: var(--mincho); font-weight: 500; font-size: clamp(1.45rem, 6.2vw, 1.85rem); line-height: 1.55; letter-spacing: 0.1em; }
 .hero__h1 { margin-top: 12px; font-family: var(--mincho); font-weight: 500; font-size: 1rem; line-height: 1.95; letter-spacing: 0.08em; color: var(--gold-l); }
 .hero__lead { margin-top: 8px; font-size: 1rem; color: rgba(255,252,248,.82); line-height: 1.85; }
 .hero__copy .btn { margin-top: 22px; }
-.hero__scroll { position: absolute; z-index: 5; right: 18px; bottom: 0; display: none; flex-direction: column; align-items: center; gap: 10px; font-family: var(--serif-en); font-style: italic; font-size: .9rem; letter-spacing: .14em; color: var(--gold-l); writing-mode: vertical-rl; }
-.hero__scroll i { position: relative; display: block; width: 1px; height: 64px; background: rgba(228,207,166,.25); overflow: hidden; }
+/* writing-mode + display:flex の併用は Safari/Firefox で崩れるため、縦書きは block のみ */
+.hero__scroll { position: absolute; z-index: 5; right: 18px; bottom: 12px; display: none; width: max-content; font-family: var(--serif-en); font-style: italic; font-size: .9rem; letter-spacing: .14em; color: var(--gold-l); writing-mode: vertical-rl; text-orientation: mixed; }
+.hero__scroll i { position: relative; display: block; width: 1px; height: 64px; margin: 10px auto 0; background: rgba(228,207,166,.25); overflow: hidden; }
 .hero__scroll i::after { content: ""; position: absolute; inset: 0; background: var(--gold-l); transform-origin: top; animation: scrollLine 2.2s cubic-bezier(.65,0,.35,1) infinite; }
 @keyframes scrollLine { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 50.1% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
 /* dotted world map under the hero button: Paris pulses and gold routes draw out to cities around the world */
@@ -137,7 +145,8 @@ h1, h2, h3, p, li, b { word-break: auto-phrase; line-break: strict; }
 .map-paris .pulse--2 { animation-delay: 1.4s; }
 @keyframes mapPulse { from { transform: scale(1); opacity: .85; } to { transform: scale(5.5); opacity: 0; } }
 .map-paris text { fill: #fff3dc; font-family: var(--serif-en); font-style: italic; font-weight: 600; font-size: 42px; letter-spacing: .06em; paint-order: stroke; stroke: rgba(137,0,21,.85); stroke-width: 7px; stroke-linejoin: round; }
-.hero-fade { opacity: 0; transform: translateY(16px); transition: opacity 1.4s ease, transform 1.4s var(--ease); transition-delay: var(--d, 0s); }
+/* FVは表示を待たせないよう、時間差を元の約3分の1に縮めて短く出す（全体で約1秒） */
+.hero-fade { opacity: 0; transform: translateY(12px); transition: opacity .7s ease, transform .7s var(--ease); transition-delay: calc(var(--d, 0s) * .35); }
 .is-loaded .hero-fade { opacity: 1; transform: none; }
 
 /* ---------- 2. highlights strip (sales punch right under hero) ---------- */
@@ -433,6 +442,10 @@ h1, h2, h3, p, li, b { word-break: auto-phrase; line-break: strict; }
 
 /* SP only: treatment heading sits on the lower part of the photo, photo kept close to square */
 @media (max-width: 899px) {
+  .hero__world { display: none; }
+  .hero__lead { display: none; }
+  .hero__badges { margin-top: 14px; }
+  .hero .note { display: none; }
   #flow .split { gap: 0; }
   #flow .split > div { display: contents; }
   #flow .split > figure { grid-area: 1 / 1; }
@@ -458,22 +471,20 @@ h1, h2, h3, p, li, b { word-break: auto-phrase; line-break: strict; }
   .slant { clip-path: polygon(0 0, 100% 72px, 100% 100%, 0 100%); margin-top: -72px; padding-top: 200px; }
   .head { margin-bottom: 64px; }
 
-  /* hero: one colour field, copy left, photo bleeding off the right edge */
-  /* content sits in a centred 1240px frame so wide monitors do not push copy and photo apart */
-  .hero { display: grid; grid-template-columns: minmax(0, 1fr) min(42vw, 520px); column-gap: clamp(32px, 5vw, 96px); min-height: max(680px, 100vh); padding: 0 max(var(--gut), calc((100vw - 1240px) / 2)); }
-  .hero__logo { top: 28px; left: max(var(--gut), calc((100vw - 1240px) / 2)); }
+  /* hero: 全面動画（横長）＋前面コピー。ロゴはフロー配置のまま（絶対配置に戻さない＝被り防止） */
+  .hero { display: flex; flex-direction: column; justify-content: flex-start; min-height: 100vh; min-height: 100dvh; padding: 0; }
+  .hero__logo { position: relative; top: auto; left: auto; margin: 28px 0 0 max(var(--gut), calc((100vw - 1240px) / 2)); }
   .hero__logo img { height: 36px; }
-  .hero__visual { grid-column: 2; grid-row: 1; aspect-ratio: auto; height: min(100vh - 120px, 900px); min-height: 640px; align-self: center; margin-top: 40px;
-    /* feather all four edges into the background instead of painting a colour over them */
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 26%, #000 88%, transparent 100%), linear-gradient(180deg, transparent 0%, #000 12%, #000 84%, transparent 100%);
-    -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent 0%, #000 26%, #000 88%, transparent 100%), linear-gradient(180deg, transparent 0%, #000 12%, #000 84%, transparent 100%); mask-composite: intersect; }
-  /* same text-free crop (x 300-681), filled to the column width; margin-top % is relative to width */
-  .hero__visual img { top: 0; margin-top: -22.3%; }
-  .hero__visual::after { display: none; }
-  .hero .wm { top: auto; bottom: 0.05em; left: max(var(--gut), calc((100vw - 1240px) / 2)); right: auto; text-align: left; font-size: min(13vw, 12rem); color: rgba(255,252,248,.16); }
-  .hero__copy { grid-column: 1; grid-row: 1; align-self: center; margin: 0; padding: 104px 0 72px; max-width: 620px; justify-self: start; width: 100%; }
-  .hero__title { font-size: clamp(2.6rem, 3.8vw, 3.5rem); }
-  .hero__scroll { display: flex; right: 28px; }
+  .hero__visual { inset: 0; width: 100%; height: 100%; min-height: 0; margin: 0; -webkit-mask-image: none; mask-image: none; background-image: url(videos/hero-landscape-poster.jpg); }
+  .hero__visual .hero__video { object-position: center 35%; }
+  .hero__video--portrait { display: none; }
+  .hero__video--landscape { display: block; }
+  .hero__visual::after { background: linear-gradient(90deg, rgba(125,0,19,.9) 0%, rgba(137,0,21,.62) 36%, rgba(153,0,23,.28) 62%, rgba(125,0,19,.42) 100%), linear-gradient(180deg, rgba(137,0,21,.4) 0%, rgba(153,0,23,.14) 40%, rgba(113,0,17,.78) 100%); }
+  .hero__copy { margin-top: auto; padding: 28px max(var(--gut), calc((100vw - 1240px) / 2)) 56px; width: 100%; }
+  .hero__copy > * { max-width: 720px; }
+  .hero__kicker { display: none; }
+  .hero__title { font-size: clamp(2.2rem, 3.2vw, 3rem); text-shadow: 0 8px 28px rgba(0,0,0,.35); }
+  .hero__scroll { display: block; right: 28px; }
   .concern { padding: 28px 12px 26px; }
   .concern__img { width: 140px; height: 140px; margin-bottom: 16px; }
   .concern b { font-size: 1.3rem; }
@@ -481,7 +492,8 @@ h1, h2, h3, p, li, b { word-break: auto-phrase; line-break: strict; }
   .hero__h1 { margin-top: 18px; }
   .hero__lead { margin-top: 14px; line-height: 2.05; }
   .hero__copy .btn { margin-top: 30px; }
-  .hero__world { margin: 30px 0 0 -24px; width: calc(100% + 48px); max-width: 640px; }
+  .hero__world { display: none; }
+  .hero .note { display: none; }
 
   .highlights__grid { padding: 0 var(--gut); }
   .hl { padding: 30px 12px 28px; }
@@ -553,7 +565,7 @@ h1, h2, h3, p, li, b { word-break: auto-phrase; line-break: strict; }
 
 /* 視差効果を減らす設定への配慮。現在はオフ（JS の RESPECT_REDUCED_MOTION を true にすると戻る） */
 html.reduce-motion *, html.reduce-motion *::before, html.reduce-motion *::after { animation: none !important; transition: none !important; }
-html.reduce-motion .fade-up, html.reduce-motion .hero-fade, html.reduce-motion .hero__visual img { opacity: 1; }
+html.reduce-motion .fade-up, html.reduce-motion .hero-fade, html.reduce-motion .hero__visual img, html.reduce-motion .hero__visual .hero__video { opacity: 1; animation: none; }
 html.reduce-motion .img-soft img, html.reduce-motion .img-soft video { clip-path: none; }
 html.reduce-motion .cta-panel__img img { transform: none; opacity: 1; }
 html.reduce-motion .stat__bar::after { transform: none; }
@@ -579,7 +591,9 @@ html.reduce-motion .fade-up, html.reduce-motion .hero-fade { transform: none; }
 p.ph-inline, h3.ph-inline { display: block; padding: 6px 10px; }
 
 /* hero */
-.hero--p5 .hero__visual img { left: 0; top: 0; margin-top: 0; width: 100%; height: 100%; object-fit: cover; object-position: 42% 40%; }
+.hero--p5 .hero__visual .hero__video { object-fit: cover; object-position: center center; }
+/* 直下の特典セクションが斜めに食い込むぶん、ボタンが重ならないよう下を空ける */
+.hero--p5 .hero__copy { padding-bottom: 88px; }
 .hero__badges { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
 .hero__badges li { padding: 6px 14px; border-radius: 999px; background: rgba(255,252,248,.1); border: 1px solid rgba(228,207,166,.45); font-family: var(--mincho); font-size: .92rem; letter-spacing: .06em; color: var(--ivory); }
 .hero .note { margin-top: 10px; color: rgba(255,252,248,.62); }
@@ -682,7 +696,8 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
 .faq__a p + p { margin-top: 8px; }
 
 @media (min-width: 900px) {
-  .hero--p5 .hero__visual img { top: 0; margin-top: 0; height: 100%; }
+  .hero--p5 .hero__visual .hero__video { object-position: center 35%; }
+  .hero--p5 .hero__copy { padding-bottom: 128px; }
   .feel-steps { grid-template-columns: repeat(3, 1fr); gap: 24px; }
   .feel-steps li { grid-template-columns: 1fr; align-items: start; }
   .feel-steps li + li::before { left: -24px; top: 30%; width: 24px; height: 1px; }
@@ -792,10 +807,15 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
 <!-- 1. Hero -->
 <section class="hero hero--p5" id="hero">
   <div class="hero__logo"><picture><source srcset="images/GUINOT_logo.webp" type="image/webp"><img src="images/GUINOT_logo.png" alt="GUINOT INSTITUT PARIS" width="2244" height="862"></picture></div>
-  <!-- 施術中の表情が分かる動画が届いたら差し替え（いまは仮の写真） -->
-  <picture class="hero__visual">
-    <img src="assets/var_p5/hero_treatment_ai.jpg" alt="VARの施術を受けるお客様" width="1200" height="1600" fetchpriority="high">
-  </picture>
+  <!-- メインビジュアル背景：縦長=スマホ、横長=PC（修正版イメージ動画。P4と同じ） -->
+  <div class="hero__visual">
+    <video class="hero__video hero__video--portrait" autoplay muted loop playsinline poster="videos/hero-portrait-poster.jpg" width="720" height="1280" aria-label="VARの施術イメージ">
+      <source src="videos/hero-portrait.mp4" type="video/mp4">
+    </video>
+    <video class="hero__video hero__video--landscape" muted loop playsinline poster="videos/hero-landscape-poster.jpg" width="1280" height="720" aria-label="VARの施術イメージ" preload="none">
+      <source src="videos/hero-landscape.mp4" type="video/mp4">
+    </video>
+  </div>
   <span class="hero__scroll" aria-hidden="true">Scroll<i></i></span>
   <div class="hero__copy">
     <span class="hero__kicker en hero-fade" style="--d:.2s">For salon owners</span>
@@ -839,17 +859,17 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
       <div class="wscenes">
         <article class="wscene fade-up">
           <!-- AI生成の仮画像。公開前に撮影素材へ差し替え -->
-          <figure class="wscene__visual"><img src="assets/var_p5/worry_refuse_ai.jpg" alt="腕で×をつくり、不満そうな表情のお客様" width="1536" height="1024" loading="lazy"></figure>
+          <figure class="wscene__visual"><img src="assets/var_p5/worry_refuse_jp.jpg" alt="腕で×をつくり、不満そうな表情のお客様" width="1331" height="1181" loading="lazy"></figure>
           <p class="wbubble"><span class="wbubble__no">01</span>クーポンで来た新規のお客様が、<em>2回目に来てくれない</em>…</p>
         </article>
         <article class="wscene fade-up" style="--d:.1s">
           <!-- AI生成の仮画像。公開前に撮影素材へ差し替え -->
-          <figure class="wscene__visual"><img src="assets/var_p5/worry_noreturn2_ai.jpg" alt="帰っていくお客様を見送り、考え込むオーナー" width="1600" height="837" loading="lazy"></figure>
+          <figure class="wscene__visual"><img src="assets/var_p5/worry_noreturn_jp.jpg" alt="帰っていくお客様を見送り、考え込むオーナー" width="1331" height="1181" loading="lazy"></figure>
           <p class="wbubble"><span class="wbubble__no">02</span>近隣も似た機器・メニューばかり。<em>エステ慣れしたお客様に響かない</em>…</p>
         </article>
         <article class="wscene fade-up" style="--d:.2s">
           <!-- AI生成の仮画像。公開前に撮影素材へ差し替え -->
-          <figure class="wscene__visual"><img src="assets/var_p5/worry_staff2_ai.jpg" alt="スタッフの施術を、横で見守るオーナー" width="1536" height="1024" loading="lazy"></figure>
+          <figure class="wscene__visual"><img src="assets/var_p5/worry_staff_jp.jpg" alt="スタッフの施術を、横で見守るオーナー" width="1331" height="1181" loading="lazy"></figure>
           <p class="wbubble"><span class="wbubble__no">03</span>自分が施術すると評判がいいのに、<em>スタッフだと同じ反応が出ない</em>…</p>
         </article>
       </div>
@@ -895,7 +915,7 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
     <div class="exp">
       <a class="exp__card fade-up" href="#feature-1">
         <!-- AI生成の仮画像。公開前に撮影素材へ差し替え -->
-        <div class="exp__img img-soft"><img src="assets/var_p5/feature_experience2_ai.jpg" alt="冷たいタオルで頬をクールダウンし、心地よさそうに微笑むお客様" width="1448" height="1086" loading="lazy"></div>
+        <div class="exp__img img-soft"><img src="assets/var_p5/feature_experience_cleansing_jp.jpg" alt="施術後、コットンで肌を整えられ心地よさそうに微笑むお客様" width="1584" height="993" loading="lazy"></div>
         <span class="exp__num" aria-hidden="true">01</span>
         <div class="exp__body">
           <span class="tag">Experience</span>
@@ -916,7 +936,7 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
       </a>
       <a class="exp__card fade-up" style="--d:.24s" href="#feature-3">
         <!-- AI生成の仮画像。公開前に撮影素材へ差し替え -->
-        <div class="exp__img img-soft"><img src="assets/var_p5/feature_repeat_ai.jpg" alt="施術後に笑顔で話し合うお客様とスタッフ" width="1600" height="1200" loading="lazy"></div>
+        <div class="exp__img img-soft"><img src="assets/var_p5/feature_mirror.jpg" alt="手鏡で自分の肌を見つめる女性" width="1067" height="800" loading="lazy"></div>
         <span class="exp__num" aria-hidden="true">03</span>
         <div class="exp__body">
           <span class="tag">Repeat</span>
@@ -943,7 +963,7 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
 
     <ol class="feel-steps">
       <li class="fade-up">
-        <figure><picture><source srcset="images/p2-step01.webp" type="image/webp"><img src="images/p2-step01.jpg" alt="専用セラムを肌に塗布する様子" width="252" height="153" loading="lazy"></picture></figure>
+        <figure><picture><source srcset="images/p5-step01-cream.webp" type="image/webp"><img src="images/p5-step01-cream.jpg" alt="専用セラムを肌に塗布する様子" width="1200" height="900" loading="lazy"></picture></figure>
         <div>
           <span class="feel-steps__no">Step <b>01</b></span>
           <h3>専用セラムを塗ると、<br><em>肌が熱く感じ始める</em></h3>
@@ -960,7 +980,7 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
       </li>
       <li class="fade-up" style="--d:.2s">
         <!-- AI生成の仮画像。公開前に撮影素材へ差し替え -->
-        <figure><img src="assets/var_p5/cooldown_towel2_ai.jpg" alt="冷たいタオルで両頬を包み、クールダウンする施術" width="1448" height="1086" loading="lazy"></figure>
+        <figure><picture><source srcset="images/p5-step03-beforeafter.webp" type="image/webp"><img src="images/p5-step03-beforeafter.jpg" alt="施術前と施術後の肌を左右に並べた写真" width="1200" height="900" loading="lazy"></picture></figure>
         <div>
           <span class="feel-steps__no">Step <b>03</b></span>
           <h3><span class="nb">肌がリフトアップ</span><span class="nb">している体感。</span><br><em><span class="nb">特殊な振動により</span><span class="nb">顔のこわばりが取れ</span></em></h3>
@@ -1013,7 +1033,7 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
 <div class="split f2-more">
       <div class="f2-train fade-up">
         <!-- AI生成の仮画像。公開前に撮影素材へ差し替え -->
-        <figure class="ph--photo"><img src="assets/var_p5/training_ai.jpg" alt="スタッフに施術手順を教える研修" width="1600" height="1200" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover"></figure>
+        <figure class="ph--photo"><img src="assets/var_p5/training_uniform_jp.jpg" alt="スタッフに施術手順を教える研修" width="1426" height="1103" loading="lazy" style="display:block;width:100%;height:100%;object-fit:cover"></figure>
         <span class="tag">Training</span>
         <h3>導入時に、<em>無料の対面研修（2時間）</em></h3>
         <p>機器の操作はシンプル。手順が決まっているので、若手スタッフにも教えやすく、施術する人による差が出にくくなります。</p>
@@ -1116,7 +1136,7 @@ a.exp__card { display: block; color: inherit; text-decoration: none; }
     <!-- 実績のイメージ写真（既存サイトの素材） -->
     <div class="brand-photos">
       <figure class="brand-photos__main fade-up"><div class="img-soft"><picture><source srcset="images/salon-front.webp" type="image/webp"><img src="images/salon-front.jpg" alt="GUINOTのサロン外観" width="2000" height="786" loading="lazy"></picture></div><figcaption>Institut</figcaption></figure>
-      <figure class="fade-up" style="--d:.1s"><div class="img-soft"><picture><source srcset="images/guinot-products.webp" type="image/webp"><img src="images/guinot-products.jpg" alt="GUINOTのスキンケア製品" width="884" height="590" loading="lazy"></picture></div><figcaption>Skincare</figcaption></figure>
+      <figure class="fade-up" style="--d:.1s"><div class="img-soft"><picture><source srcset="images/p5-brand-longuevie.webp" type="image/webp"><img src="images/p5-brand-longuevie.jpg" alt="GUINOTのスキンケア製品「LONGUE VIE+」シリーズ" width="1000" height="1000" loading="lazy"></picture></div><figcaption>Skincare</figcaption></figure>
       <figure class="fade-up" style="--d:.2s"><div class="img-soft"><picture><source srcset="images/about-img04.webp" type="image/webp"><img src="images/about-img04.jpg" alt="創業当時のGUINOTサロン" width="800" height="800" loading="lazy"></picture></div><figcaption>Heritage</figcaption></figure>
     </div>
     <div class="proof__grid">
@@ -1301,6 +1321,21 @@ document.addEventListener('DOMContentLoaded', function () {
   var progress = document.querySelector('.progress');
   var header = document.querySelector('.header');
   var wide = window.matchMedia('(min-width: 900px)');
+  var heroPortrait = document.querySelector('.hero__video--portrait');
+  var heroLandscape = document.querySelector('.hero__video--landscape');
+  function syncHeroVideo() {
+    if (!heroPortrait || !heroLandscape) return;
+    var useWide = wide.matches;
+    var on = useWide ? heroLandscape : heroPortrait;
+    var off = useWide ? heroPortrait : heroLandscape;
+    off.pause();
+    if (on.readyState === 0) on.load();
+    var play = on.play();
+    if (play && play.catch) play.catch(function () {});
+  }
+  if (wide.addEventListener) wide.addEventListener('change', syncHeroVideo);
+  else if (wide.addListener) wide.addListener(syncHeroVideo);
+  syncHeroVideo();
   var marks = reduce ? [] : Array.prototype.slice.call(document.querySelectorAll('.wm[data-px]'));
   var band = document.querySelector('.band img');
   var floatingCta = document.querySelector('.floating-cta');
