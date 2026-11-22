@@ -1,0 +1,7 @@
+---
+description: 作業の引き継ぎ（HANDOFF.md）
+alwaysApply: true
+---
+- 作業を始める前に HANDOFF.md を読む
+- 作業の区切りと終了時に、HANDOFF.md に「日時／Cursor／ブランチ／やったこと／次にやること」を追記する
+- 未 push の変更があれば、終了する前に報告する
