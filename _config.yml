@@ -1,0 +1,5 @@
+# GitHub Pages（Jekyll）で、AI 用・引き継ぎ用のファイルを公開サイトに出さない
+exclude:
+  - CLAUDE.md
+  - AGENTS.md
+  - HANDOFF.md
